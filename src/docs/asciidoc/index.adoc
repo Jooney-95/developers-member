@@ -9,7 +9,21 @@
 
 == Member API
 
-=== 사용자 로그인
+=== 사용자 회원가입
+Request
+// include::{snippets}/problem/save/http-request.adoc[]
+
+Response
+// include::{snippets}/problem/save/http-response.adoc[]
+
+=== 사용자 로컬 로그인
+Request
+// include::{snippets}/problem/save/http-request.adoc[]
+
+Response
+// include::{snippets}/problem/save/http-response.adoc[]
+
+=== 사용자 소셜 로그인
 Request
 // include::{snippets}/problem/save/http-request.adoc[]
 
