@@ -20,7 +20,7 @@ pipeline {
           withCredentials([GitUsernamePassword(credentialsId: githubCredential, gitToolName: 'Default')]) {
             sh 'git submodule update --init --recursive'
           }
-          }
+      }
       post {
         failure {
           echo 'Application Repository clone failure'
