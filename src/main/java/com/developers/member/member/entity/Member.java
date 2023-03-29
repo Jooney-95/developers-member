@@ -1,23 +1,27 @@
 package com.developers.member.member.entity;
 
 import com.developers.member.common.entity.BaseTimeEntity;
+import com.developers.member.point.entity.Point;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 /**
- * @DynamicInsert과 @DynamicUpdate 어노테이션 적용 여부 논의 필요
+ * 사용자 엔티티 클래스
+ * 사용자(Member)와 포인트(Point: 1대1 관계
+ * 사용자(Member)와 선택 칭호(MyBadge): 1대1 관계
+ * 사용자(Member)와 획득 칭호(MyBadge): 1대다 관계
+ * 사용자(Member)와 경력 정보(Career): 1대다 관계
  */
-
-//@DynamicUpdate
-//@DynamicInsert
 @NoArgsConstructor
 @Getter
 @ToString
+@SQLDelete(sql = "UPDATE member SET deleted = true WHERE member_id = ?")
+@Where(clause = "deleted = false")
 @Table(name = "member")
 @Entity
 public class Member extends BaseTimeEntity {
@@ -26,10 +30,10 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
     @Column(name = "password", nullable = false)
@@ -50,7 +54,7 @@ public class Member extends BaseTimeEntity {
     private String address;
 
     @Column(name = "is_mentor", nullable = false)
-    private boolean isMentor;
+    private boolean isMentor = false;
 
     @Column(name = "introduce")
     private String introduce;
@@ -60,6 +64,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "skills")
     private String skills;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Point point;
 
     @Builder
     public Member(String email, String nickname, String password, Type type, Role role, String profileImageUrl, String address, boolean isMentor, String introduce, String position, String skills) {

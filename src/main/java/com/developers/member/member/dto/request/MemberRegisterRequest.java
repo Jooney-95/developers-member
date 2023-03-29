@@ -1,12 +1,14 @@
 package com.developers.member.member.dto.request;
 
-
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.entity.Role;
 import com.developers.member.member.entity.Type;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
+/**
+ * 회원가입을 하기 위한 요청 DTO
+ */
 @Builder
 public class MemberRegisterRequest {
     @NotBlank(message = "이메일이 공백일 수 없습니다.")
