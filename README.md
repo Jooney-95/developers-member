@@ -33,4 +33,4 @@ com.developers.member
 1. [Git Fork](https://jooneys-portfolio.notion.site/GIt-0f7a34fbaf584deaa0e561de46f3542d) 전략을 통해 개발 작업후 업스트림 저장소로 PR을 생성하여 올린다.
 2. PR 리뷰어들은 PR을 리뷰하고 PR을 승인한다.
 3. 리뷰어 2명 이상의 Approve(승인)을 받으면 업스트림 저장소에 올린 PR은 자동으로 Merge된다.
-4. 
+4. Merge 이후 운영환경에 변경사항 적용여부를 확인한다.
