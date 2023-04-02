@@ -19,7 +19,7 @@ import org.hibernate.annotations.Where;
  */
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = {"point"})
 @SQLDelete(sql = "UPDATE member SET deleted = true WHERE member_id = ?")
 @Where(clause = "deleted = false")
 @Table(name = "member")
@@ -65,11 +65,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "skills")
     private String skills;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Point point;
 
     @Builder
-    public Member(String email, String nickname, String password, Type type, Role role, String profileImageUrl, String address, boolean isMentor, String introduce, String position, String skills) {
+    public Member(String email, String nickname, String password, Type type, Role role, String profileImageUrl, String address, boolean isMentor, String introduce, String position, String skills, Long point) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -81,6 +81,7 @@ public class Member extends BaseTimeEntity {
         this.introduce = introduce;
         this.position = position;
         this.skills = skills;
+        this.point = Point.builder().member(this).point(point).build();
     }
     public void updateNickname(String nickname) {
         if (nickname != null) {
@@ -103,4 +104,18 @@ public class Member extends BaseTimeEntity {
     public void updateIntroduce(String introduce) {
         this.introduce = introduce;
     }
+
+    public void increasePoint(Long point) {
+        this.point = Point.builder()
+                .point(this.point.getPoint() + point)
+                .build();
+    }
+
+    public void decreasePoint(Long point) {
+        this.point = Point.builder()
+                .point(this.point.getPoint() - point)
+                .build();
+    }
+
+
 }

@@ -10,4 +10,8 @@ import java.util.Optional;
  */
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByIsMentorIsAndMemberId(boolean isMentor, Long memberId);
+
+    boolean existsByNickname(String nickname);
+
+    Optional<Member> findByNickname(String nickname);
 }

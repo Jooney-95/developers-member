@@ -20,6 +20,11 @@ public class AuthController {
 
     private final MemberService memberService;
 
+    /**
+     * 사용자 회원가입
+     * @param request 이메일, 비밀번호, 닉네임, 프로필이미지경로, 주소, 직무, 기술스택
+     * @return MemberRegisterResponse
+     */
     @PostMapping
     public ResponseEntity<MemberRegisterResponse> register(@Valid @RequestBody MemberRegisterRequest request) {
         MemberRegisterResponse response = memberService.register(request);
