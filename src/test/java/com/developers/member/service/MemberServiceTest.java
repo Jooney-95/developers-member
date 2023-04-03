@@ -38,7 +38,6 @@ import static org.mockito.Mockito.when;
 public class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
     @InjectMocks
