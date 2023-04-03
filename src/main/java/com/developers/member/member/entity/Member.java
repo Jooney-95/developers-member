@@ -104,17 +104,12 @@ public class Member extends BaseTimeEntity {
     public void updateIntroduce(String introduce) {
         this.introduce = introduce;
     }
-
     public void increasePoint(Long point) {
-        this.point = Point.builder()
-                .point(this.point.getPoint() + point)
-                .build();
+        this.point.increase(point);
     }
 
     public void decreasePoint(Long point) {
-        this.point = Point.builder()
-                .point(this.point.getPoint() - point)
-                .build();
+        this.point.decrease(point);
     }
 
 

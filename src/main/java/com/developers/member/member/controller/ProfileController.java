@@ -26,7 +26,7 @@ public class ProfileController {
      * @return ProfileGetResponse
      */
     @GetMapping("/profile/{memberId}")
-    public ResponseEntity<ProfileGetResponse> getProfile(@Valid @PathVariable Long memberId) {
+    public ResponseEntity<ProfileGetResponse> getProfile(@PathVariable Long memberId) {
         ProfileGetResponse response = memberService.getProfile(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
