@@ -25,13 +25,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(JpaConfig.class)
-@ActiveProfiles("local")
+@ActiveProfiles("prod")
 public class PointRepositoryTest {
     @Autowired private PointRepository pointRepository;
     @Autowired private MemberRepository memberRepository;
 
-    @BeforeEach
-    public void setUp() {
+
+    @DisplayName("문제 풀이를 통한 포인트 적립")
+    @Test
+    public void increasePoint() {
+        // given
         Member member = Member.builder()
                 .email("lango@kakao.com")
                 .password("kakao123")
@@ -45,21 +48,8 @@ public class PointRepositoryTest {
                 .point(100L)
                 .build();
         memberRepository.save(member);
-    }
-
-    @AfterEach
-    public void clear() {
-        memberRepository.deleteAll();
-        pointRepository.deleteAll();
-    }
-
-    @DisplayName("문제 풀이를 통한 포인트 적립")
-    @Test
-    public void increasePoint() {
-        // given
-        Long memberId = 1L;
-        Optional<Member> member = memberRepository.findById(memberId);
-        Point point = member.get().getPoint();
+        Optional<Member> saveMember = memberRepository.findById(member.getMemberId());
+        Point point = saveMember.get().getPoint();
         point.increase(10L);
         pointRepository.save(point);
 
@@ -74,9 +64,21 @@ public class PointRepositoryTest {
     @Test
     public void decreasePoint() {
         // given
-        Long memberId = 2L;
-        Optional<Member> member = memberRepository.findById(memberId);
-        Point point = member.get().getPoint();
+        Member member = Member.builder()
+                .email("lango@kakao.com")
+                .password("kakao123")
+                .nickname("lango")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .profileImageUrl("/root/1")
+                .isMentor(false)
+                .address("서울특별시 강남구")
+                .introduce("안녕하세요 저는 ...")
+                .point(100L)
+                .build();
+        memberRepository.save(member);
+        Optional<Member> saveMember = memberRepository.findById(member.getMemberId());
+        Point point = saveMember.get().getPoint();
         point.decrease(30L);
         pointRepository.save(point);
 

@@ -32,7 +32,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(JpaConfig.class)
-@ActiveProfiles("local")
+@ActiveProfiles("prod")
 public class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
