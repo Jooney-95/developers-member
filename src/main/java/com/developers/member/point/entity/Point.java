@@ -3,6 +3,7 @@ package com.developers.member.point.entity;
 import com.developers.member.common.entity.BaseTimeEntity;
 import com.developers.member.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.Where;
 
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = {"member"})
 @SQLDelete(sql = "UPDATE point SET deleted = true WHERE point_id = ?")
 @Where(clause = "deleted = false")
 @Table(name = "point")
@@ -24,8 +25,16 @@ public class Point extends BaseTimeEntity {
     private Long pointId;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "point")
+    @Column(name = "point", nullable = false)
     private Long point;
+
+    @Builder
+    public Point(Member member, Long point) {
+        this.member = member;
+        this.point = point;
+
+    }
 }

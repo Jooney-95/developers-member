@@ -13,13 +13,22 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
+    /**
+     * 사용자 닉네임 정보 전달
+     * @param memberId 사용자 PK 번호
+     * @return MemberInfoResponse
+     */
     @GetMapping("/member")
     public ResponseEntity<MemberInfoResponse> getWriterInfo(@RequestParam Long memberId) {
-        System.out.println(memberId);
         MemberInfoResponse response = memberService.getWriterInfo(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    /**
+     * 멘토 사용자 닉네임 정보 전달 - 멘토 등록된 사용자의 정보를 전달
+     * @param mentorId 사용자 PK 번호
+     * @return MemberInfoResponse
+     */
     @GetMapping("/mentor")
     public ResponseEntity<MemberInfoResponse> getMentorInfo(@RequestParam Long mentorId) {
         MemberInfoResponse response = memberService.getMentorInfo(mentorId);

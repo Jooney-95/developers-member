@@ -1,14 +1,18 @@
 package com.developers.member.service;
 
 import com.developers.member.member.dto.request.MemberRegisterRequest;
-import com.developers.member.member.dto.response.MemberIdResponse;
-import com.developers.member.member.dto.response.MemberInfoResponse;
-import com.developers.member.member.dto.response.MemberRegisterResponse;
+import com.developers.member.member.dto.request.NicknameUpdateRequest;
+import com.developers.member.member.dto.request.PasswordChangeRequest;
+import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
+import com.developers.member.member.dto.response.*;
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.entity.Role;
 import com.developers.member.member.entity.Type;
 import com.developers.member.member.repository.MemberRepository;
 import com.developers.member.member.service.MemberServiceImpl;
+import com.developers.member.point.entity.Point;
+import com.developers.member.point.repository.PointRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -34,16 +39,19 @@ public class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private MemberServiceImpl memberService;
 
     @DisplayName("사용자 회원가입")
+    @Transactional
     @Test
     public void register() {
         // given
         MemberRegisterRequest request = MemberRegisterRequest.builder()
                 .email("test1@kakao.com")
-                .nickName("test1")
+                .nickname("test1")
                 .password("kakao123")
                 .profileImageUrl("/root/1")
                 .build();
@@ -54,10 +62,11 @@ public class MemberServiceTest {
         MemberRegisterResponse response = memberService.register(request);
 
         // then
-        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.name());
+        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
         assertThat(response.getMsg()).isEqualTo("회원가입이 정상적으로 처리되었습니다.");
-        assertThat(response.getData()).isInstanceOf(MemberIdResponse.class);
+        assertThat(response.getData()).isInstanceOf(MemberIdWithPointResponse.class);
         assertThat(response.getData().getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(response.getData().getPoint()).isEqualTo(100L);
     }
 
     @DisplayName("작성자 닉네임 정보 조회")
@@ -73,6 +82,7 @@ public class MemberServiceTest {
                 .role(Role.USER)
                 .profileImageUrl("/root/1")
                 .isMentor(false)
+                .point(100L)
                 .build();
         when(memberRepository.findById(any())).thenReturn(Optional.of(member));
 
@@ -96,6 +106,7 @@ public class MemberServiceTest {
                 .role(Role.USER)
                 .profileImageUrl("/root/1")
                 .isMentor(true)
+                .point(100L)
                 .build();
         when(memberRepository.findById(any())).thenReturn(Optional.of(member));
 
@@ -104,6 +115,122 @@ public class MemberServiceTest {
 
         // then
         assertThat(response.getMemberName()).isEqualTo("mentor");
+    }
+
+    @DisplayName("나의 개인정보 조회 - Member와 Point 모두 조회")
+    @Test
+    public void getProfile() {
+        // given
+        Member member = Member.builder()
+                .email("profile@kakao.com")
+                .password("kakao123")
+                .nickname("myProfile")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .profileImageUrl("/root/1")
+                .isMentor(false)
+                .point(100L)
+                .build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        // when
+        ProfileGetResponse response = memberService.getProfile(member.getMemberId());
+
+        // then
+        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
+        assertThat(response.getMsg()).isEqualTo("정상적으로 나의 정보를 조회하였습니다.");
+        assertThat(response.getData()).isInstanceOf(ProfileResponse.class);
+        assertThat(response.getData().getEmail()).isEqualTo(member.getEmail());
+        assertThat(response.getData().getNickname()).isEqualTo(member.getNickname());
+        assertThat(response.getData().getPoint()).isEqualTo(member.getPoint().getPoint());
+    }
+
+    @DisplayName("사용자 닉네임 변경")
+    @Test
+    public void updateNickname() {
+        // given
+        NicknameUpdateRequest request = NicknameUpdateRequest.builder()
+                .memberId(1L)
+                .nickname("test002")
+                .build();
+        Member member = Member.builder()
+                .email("test001@kakao.com")
+                .password("kakao123")
+                .nickname("test001")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .profileImageUrl("/root/1")
+                .isMentor(false)
+                .point(100L)
+                .build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        // when
+        NicknameUpdateResponse response = memberService.updateNickname(request);
+
+        // then
+        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
+        assertThat(response.getMsg()).isEqualTo("정상적으로 닉네임을 변경하였습니다.");
+        assertThat(response.getData()).isInstanceOf(MemberIdWithNicknameResponse.class);
+        assertThat(response.getData().getNickname()).isEqualTo(request.getNickname());
+    }
+    @DisplayName("사용자 프로필 이미지 변경")
+    @Test
+    public void updateProfileImage() {
+        // given
+        ProfileImageUpdateRequest request = ProfileImageUpdateRequest.builder()
+                .memberId(1L)
+                .imagePath("/root/test002/default/1")
+                .build();
+        Member member = Member.builder()
+                .email("test002@kakao.com")
+                .password("kakao123")
+                .nickname("test002")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .profileImageUrl("/root/default/1")
+                .isMentor(false)
+                .point(100L)
+                .build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        // when
+        ProfileImageUpdateResponse response = memberService.updateProfileImg(request);
+
+        // then
+        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
+        assertThat(response.getMsg()).isEqualTo("정상적으로 프로필 이미지를 변경하였습니다.");
+        assertThat(response.getData()).isInstanceOf(ProfileImgPathResponse.class);
+        assertThat(response.getData().getPath()).isEqualTo(request.getImagePath());
+    }
+
+    @DisplayName("사용자 비밀번호 변경")
+    @Test
+    public void changePassword() {
+        // given
+        PasswordChangeRequest request = PasswordChangeRequest.builder()
+                .memberId(1L)
+                .password("kakaocloudschool123!")
+                .build();
+        Member member = Member.builder()
+                .email("test003@kakao.com")
+                .password("kakao123")
+                .nickname("test003")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .profileImageUrl("/root/default/1")
+                .isMentor(false)
+                .point(100L)
+                .build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        // when
+        PasswordChangeResponse response = memberService.changePassword(request);
+
+        // then
+        assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
+        assertThat(response.getMsg()).isEqualTo("정상적으로 비밀번호가 변경되었습니다.");
+        assertThat(response.getData()).isInstanceOf(MemberIdResponse.class);
     }
 }
 
