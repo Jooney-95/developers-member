@@ -1,4 +1,4 @@
-package com.developers.member.repository;
+package com.developers.member.member.repository;
 
 import com.developers.member.config.JpaConfig;
 import com.developers.member.member.entity.Member;
@@ -51,6 +51,8 @@ public class MemberRepositoryTest {
                 .isMentor(false)
                 .address("서울특별시 강남구")
                 .introduce("안녕하세요 저는 ...")
+                .position("Software Engineer,Backend Engineer")
+                .skills("Spring,Java,MySQL")
                 .point(100L)
                 .build();
         memberRepository.save(member);
@@ -263,5 +265,34 @@ public class MemberRepositoryTest {
 
         // then
         Assertions.assertEquals(result.getPassword(), "kakaocloudschool123");
+    }
+
+    @DisplayName("이력정보 등록 및 수정 - 간단소개글, 직무, 주요기술")
+    @Test
+    public void updateMemberResume() {
+        // given
+        Member member = Member.builder()
+                .email("resume001@kakao.com")
+                .password("kakao123")
+                .nickname("resume001")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .isMentor(false)
+                .profileImageUrl("/root/resume001/1")
+                .point(100L)
+                .build();
+        Member saveMember = memberRepository.save(member);
+
+        // when
+        saveMember.updateIntroduce("안녕하세요 저는 백엔드 개발자 xxx 입니다.");
+        saveMember.updatePosition("웹 개발자,소프트웨어 엔지니어,자바 개발자");
+        saveMember.updateSkills("Java,Spring,MySQL");
+        Member result = memberRepository.save(member);
+
+        // then
+        assertThat(result.getIntroduce()).isEqualTo(saveMember.getIntroduce());
+        assertThat(result.getPosition()).isEqualTo(saveMember.getPosition());
+        assertThat(result.getSkills()).isEqualTo(saveMember.getSkills());
+
     }
 }

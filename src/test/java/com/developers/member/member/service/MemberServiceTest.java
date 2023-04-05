@@ -1,4 +1,4 @@
-package com.developers.member.service;
+package com.developers.member.member.service;
 
 import com.developers.member.member.dto.request.MemberRegisterRequest;
 import com.developers.member.member.dto.request.NicknameUpdateRequest;
@@ -9,10 +9,6 @@ import com.developers.member.member.entity.Member;
 import com.developers.member.member.entity.Role;
 import com.developers.member.member.entity.Type;
 import com.developers.member.member.repository.MemberRepository;
-import com.developers.member.member.service.MemberServiceImpl;
-import com.developers.member.point.entity.Point;
-import com.developers.member.point.repository.PointRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +40,6 @@ public class MemberServiceTest {
     private MemberServiceImpl memberService;
 
     @DisplayName("사용자 회원가입")
-    @Transactional
     @Test
     public void register() {
         // given

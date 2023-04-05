@@ -1,4 +1,4 @@
-package com.developers.member.service;
+package com.developers.member.point.service;
 
 import com.developers.member.member.dto.response.MemberIdWithPointResponse;
 import com.developers.member.member.entity.Member;
