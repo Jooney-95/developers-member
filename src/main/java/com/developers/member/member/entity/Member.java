@@ -104,6 +104,12 @@ public class Member extends BaseTimeEntity {
     public void updateIntroduce(String introduce) {
         this.introduce = introduce;
     }
+    public void updatePosition(String position) {
+        this.position = position;
+    }
+    public void updateSkills(String skills) {
+        this.skills = skills;
+    }
     public void increasePoint(Long point) {
         this.point.increase(point);
     }

@@ -1,9 +1,6 @@
 package com.developers.member.member.service;
 
-import com.developers.member.member.dto.request.MemberRegisterRequest;
-import com.developers.member.member.dto.request.NicknameUpdateRequest;
-import com.developers.member.member.dto.request.PasswordChangeRequest;
-import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
+import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.repository.MemberRepository;
@@ -206,6 +203,37 @@ public class MemberServiceImpl implements MemberService {
             return PasswordChangeResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("비밀번호를 변경하던 중 문제가 발생하였습니다.")
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Transactional
+    @Override
+    public MemberResumeSaveResponse saveMemberResume(MemberResumeSaveRequest request) {
+        try {
+            Optional<Member> member = memberRepository.findById(request.getMemberId());
+            if (member.isPresent()) {
+                member.get().updateIntroduce(request.getIntroduce());
+                member.get().updatePosition(request.getPositions());
+                member.get().updateSkills(request.getSkills());
+                MemberIdResponse memberId = MemberIdResponse.builder().memberId(member.get().getMemberId()).build();
+                return MemberResumeSaveResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("정상적으로 이력정보를 등록하였습니다.")
+                        .data(memberId)
+                        .build();
+            } else {
+                return MemberResumeSaveResponse.builder()
+                        .code(HttpStatus.NOT_FOUND.toString())
+                        .msg("존재하지 않는 사용자입니다.")
+                        .data(null)
+                        .build();
+            }
+        } catch (Exception e) {
+            return MemberResumeSaveResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                    .msg("이력정보를 등록하던 중 문제가 발생하였습니다.")
                     .data(null)
                     .build();
         }

@@ -1,9 +1,6 @@
 package com.developers.member.member.service;
 
-import com.developers.member.member.dto.request.MemberRegisterRequest;
-import com.developers.member.member.dto.request.NicknameUpdateRequest;
-import com.developers.member.member.dto.request.PasswordChangeRequest;
-import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
+import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 
 public interface MemberService {
@@ -21,4 +18,6 @@ public interface MemberService {
     ProfileImageUpdateResponse updateProfileImg(ProfileImageUpdateRequest request);
 
     PasswordChangeResponse changePassword(PasswordChangeRequest request);
+
+    MemberResumeSaveResponse saveMemberResume(MemberResumeSaveRequest request);
 }

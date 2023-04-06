@@ -1,4 +1,4 @@
-package com.developers.member.repository;
+package com.developers.member.point.repository;
 
 import com.developers.member.config.JpaConfig;
 import com.developers.member.member.entity.Member;
