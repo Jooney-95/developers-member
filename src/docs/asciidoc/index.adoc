@@ -1,4 +1,4 @@
-= [Live] 사용자 관리 서비스 API 명세서
+= [Member] 사용자 관리 서비스 API 명세서
 
 :doctype: book
 :icons: font
@@ -7,25 +7,169 @@
 :toclevels: 2
 :sectlinks:
 
-== Member API
+== Register API
 
 === 사용자 회원가입
+
 Request
-// include::{snippets}/problem/save/http-request.adoc[]
+include::{snippets}/member/register/member-register/http-request.adoc[]
 
 Response
-// include::{snippets}/problem/save/http-response.adoc[]
+include::{snippets}/member/register/member-register/http-response.adoc[]
 
-=== 사용자 로컬 로그인
+=== 사용자 회원탈퇴
+
 Request
-// include::{snippets}/problem/save/http-request.adoc[]
+include::{snippets}/member/register/member-unregister/http-request.adoc[]
 
 Response
-// include::{snippets}/problem/save/http-response.adoc[]
+include::{snippets}/member/register/member-unregister/http-response.adoc[]
 
-=== 사용자 소셜 로그인
+
+
+== Profile API
+
+=== 사용자 개인정보 조회
+
 Request
-// include::{snippets}/problem/save/http-request.adoc[]
+include::{snippets}/member/profile/get-profile/http-request.adoc[]
 
 Response
-// include::{snippets}/problem/save/http-response.adoc[]
+include::{snippets}/member/profile/get-profile/http-response.adoc[]
+
+=== 사용자 닉네임 변경
+
+Request
+include::{snippets}/member/profile/update-nickname/http-request.adoc[]
+
+Response
+include::{snippets}/member/profile/update-nickname/http-response.adoc[]
+
+=== 사용자 프로필 이미지 변경
+
+Request
+include::{snippets}/member/profile/update-profileimg/http-request.adoc[]
+
+Response
+include::{snippets}/member/profile/update-profileimg/http-response.adoc[]
+
+=== 사용자 비밀번호 변경
+
+Request
+include::{snippets}/member/profile/change-password/http-request.adoc[]
+
+Response
+include::{snippets}/member/profile/change-password/http-response.adoc[]
+
+=== 사용자 거주지 변경
+
+Request
+include::{snippets}/member/profile/update-address/http-request.adoc[]
+
+Response
+include::{snippets}/member/profile/update-address/http-response.adoc[]
+
+
+
+== Resume API
+
+=== 사용자 이력정보 등록 및 수정
+
+Request
+include::{snippets}/member/resume/save-member-resumeinfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/resume/save-member-resumeinfo/http-response.adoc[]
+
+
+
+== Career API
+
+=== 사용자 경력정보 조회
+
+Request
+include::{snippets}/member/career/get-member-careerinfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/career/get-member-careerinfo/http-response.adoc[]
+
+=== 사용자 경력정보 등록
+
+Request
+include::{snippets}/member/career/save-member-careerinfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/career/save-member-careerinfo/http-response.adoc[]
+
+=== 사용자 경력정보 수정
+
+Request
+include::{snippets}/member/career/update-member-careerinfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/career/update-member-careerinfo/http-response.adoc[]
+
+=== 사용자 경력정보 삭제
+
+Request
+include::{snippets}/member/career/delete-member-careerinfo/http-request.adoc[]
+
+Response
+include::{snippets}/member/career/delete-member-careerinfo/http-response.adoc[]
+
+
+
+
+== Point API
+
+=== 사용자 포인트 적립(+10점)
+
+Request
+include::{snippets}/member/point/increase/http-request.adoc[]
+
+Response
+include::{snippets}/member/point/increase/http-response.adoc[]
+
+=== 사용자 포인트 차감(-30점)
+
+Request
+include::{snippets}/member/point/decrease/http-request.adoc[]
+
+Response
+include::{snippets}/member/point/decrease/http-response.adoc[]
+
+
+
+== Badge API
+
+=== 사용자 획득 칭호 조회
+
+Request
+include::{snippets}/member/badge/get-all-badge/http-request.adoc[]
+
+Response
+include::{snippets}/member/badge/get-all-badge/http-response.adoc[]
+
+=== 사용자 착용 칭호 조회
+
+Request
+include::{snippets}/member/badge/get-pick-badge/http-request.adoc[]
+
+Response
+include::{snippets}/member/badge/get-pick-badge/http-response.adoc[]
+
+=== 사용자 착용 칭호 변경
+
+Request
+include::{snippets}/member/badge/change-badge/http-request.adoc[]
+
+Response
+include::{snippets}/member/badge/change-badge/http-response.adoc[]
+
+=== 사용자 칭호 획득
+
+Request
+include::{snippets}/member/badge/save-badge/http-request.adoc[]
+
+Response
+include::{snippets}/member/badge/save-badge/http-response.adoc[]
