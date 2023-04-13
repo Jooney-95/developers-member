@@ -15,11 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/resume")
+@RequestMapping("/api/member")
 public class ResumeController {
     private final MemberService memberService;
 
-    @PatchMapping
+    /**
+     * 사용자 이력정보 등록
+     * 간단소개글, 주요기술, 직무 3가지를 한번에 등록.
+     * @param request 사용자 PK 번호, 간단소개글, 주요기술, 직무 정보
+     * @return MemberResumeSaveResponse
+     */
+    @PatchMapping("/resume")
     public ResponseEntity<MemberResumeSaveResponse> saveMemberResume(@Valid @RequestBody MemberResumeSaveRequest request) {
         MemberResumeSaveResponse response = memberService.saveMemberResume(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);

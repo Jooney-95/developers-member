@@ -1,5 +1,6 @@
 package com.developers.member.member.service;
 
+import com.developers.member.career.repository.CareerRepository;
 import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 import com.developers.member.member.entity.Member;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final CareerRepository careerRepository;
 
     @Override
     public MemberRegisterResponse register(MemberRegisterRequest request) {
@@ -111,7 +113,6 @@ public class MemberServiceImpl implements MemberService {
             Optional<Member> member = memberRepository.findById(request.getMemberId());
             if(member.isPresent()) {
                 boolean duplicate = memberRepository.existsByNickname(request.getNickname());
-                System.out.println(duplicate);
                 if(duplicate == true) {
                     return NicknameUpdateResponse.builder()
                             .code(HttpStatus.CONFLICT.toString())
@@ -235,6 +236,93 @@ public class MemberServiceImpl implements MemberService {
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("이력정보를 등록하던 중 문제가 발생하였습니다.")
                     .data(null)
+                    .build();
+        }
+    }
+
+    @Transactional
+    @Override
+    public AddressUpdateResponse updateAddress(AddressUpdateRequest request) {
+        try {
+            Optional<Member> member = memberRepository.findById(request.getMemberId());
+            if (member.isPresent()) {
+                member.get().updateAddress(request.getAddress());
+                MemberIdResponse memberId = MemberIdResponse.builder()
+                        .memberId(request.getMemberId())
+                        .build();
+                return AddressUpdateResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("정상적으로 거주지 정보를 변경했습니다.")
+                        .data(memberId)
+                        .build();
+            } else {
+                return AddressUpdateResponse.builder()
+                        .code(HttpStatus.NOT_FOUND.toString())
+                        .msg("존재하지 않는 사용자입니다.")
+                        .data(null)
+                        .build();
+            }
+        } catch (Exception e) {
+            return AddressUpdateResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                    .msg("거주지 정보를 변경하던 중 문제가 발생했습니다.")
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public MemberRemoveResponse removeMember(Long memberId) {
+        try {
+            Optional<Member> member = memberRepository.findById(memberId);
+            if (member.isPresent()) {
+                memberRepository.deleteById(memberId);
+                MemberIdResponse removeMemberId = MemberIdResponse.builder().memberId(memberId).build();
+                return MemberRemoveResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("정상적으로 사용자 회원 탈퇴를 처리했습니다.")
+                        .data(removeMemberId)
+                        .build();
+            } else {
+                return MemberRemoveResponse.builder()
+                        .code(HttpStatus.NOT_FOUND.toString())
+                        .msg("존재하지 않는 사용자입니다.")
+                        .data(null)
+                        .build();
+            }
+        } catch (Exception e) {
+            return MemberRemoveResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                    .msg("사용자 회원 탈퇴를 하던 중 문제가 발생했습니다.")
+                    .data(null)
+                    .build();
+        }
+    }
+
+    @Override
+    public MemberLoginResponse getLoginMember(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()) {
+            return MemberLoginResponse.builder()
+                    .loginEmail(member.get().getEmail())
+                    .loginPassword(member.get().getPassword())
+                    .build();
+        }
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public UpdateMemberRefreshResponse updateRefreshToken(UpdateMemberRefreshRequest request) {
+        Optional<Member> member = memberRepository.findByEmail(request.getLoginEmail());
+        if(member.isPresent()) {
+            member.get().setRefreshToken(request.getRefreshToken());
+            return UpdateMemberRefreshResponse.builder()
+                    .code(HttpStatus.OK.toString())
+                    .build();
+        } else {
+            return UpdateMemberRefreshResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.toString())
                     .build();
         }
     }

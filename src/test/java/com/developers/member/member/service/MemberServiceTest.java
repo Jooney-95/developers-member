@@ -74,7 +74,6 @@ public class MemberServiceTest {
                 .nickname("lango")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .point(100L)
                 .build();
@@ -98,7 +97,6 @@ public class MemberServiceTest {
                 .nickname("mentor")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(true)
                 .point(100L)
                 .build();
@@ -121,7 +119,6 @@ public class MemberServiceTest {
                 .nickname("myProfile")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .point(100L)
                 .build();
@@ -153,7 +150,6 @@ public class MemberServiceTest {
                 .nickname("test001")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .point(100L)
                 .build();
@@ -212,7 +208,6 @@ public class MemberServiceTest {
                 .nickname("test003")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/default/1")
                 .isMentor(false)
                 .point(100L)
                 .build();

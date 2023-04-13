@@ -20,4 +20,12 @@ public interface MemberService {
     PasswordChangeResponse changePassword(PasswordChangeRequest request);
 
     MemberResumeSaveResponse saveMemberResume(MemberResumeSaveRequest request);
+
+    MemberLoginResponse getLoginMember(String email);
+
+    UpdateMemberRefreshResponse updateRefreshToken(UpdateMemberRefreshRequest request);
+
+    AddressUpdateResponse updateAddress(AddressUpdateRequest request);
+
+    MemberRemoveResponse removeMember(Long memberId);
 }

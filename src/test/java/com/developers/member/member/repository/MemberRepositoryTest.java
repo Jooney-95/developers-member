@@ -1,10 +1,10 @@
 package com.developers.member.member.repository;
 
 import com.developers.member.config.JpaConfig;
+import com.developers.member.config.WebSecurityConfig;
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.entity.Role;
 import com.developers.member.member.entity.Type;
-import com.developers.member.member.repository.MemberRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -31,11 +32,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 //@SpringBootTest
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(JpaConfig.class)
+@Import({JpaConfig.class, WebSecurityConfig.class})
 @ActiveProfiles("prod")
 public class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @DisplayName("한명의 회원 데이터 저장")
     @Test
@@ -43,11 +46,10 @@ public class MemberRepositoryTest {
         // given
         Member member = Member.builder()
                 .email("lango@kakao.com")
-                .password("kakao123")
+                .password(passwordEncoder.encode("kakao123"))
                 .nickname("lango")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .address("서울특별시 강남구")
                 .introduce("안녕하세요 저는 ...")
@@ -79,7 +81,6 @@ public class MemberRepositoryTest {
                     .type(Type.LOCAL)
                     .role(Role.USER)
                     .isMentor(false)
-                    .profileImageUrl("/root/" + i)
                     .point(100L)
                     .build();
             memberRepository.save(member);
@@ -106,7 +107,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/1")
                 .point(100L)
                 .build();
         Member member2 = Member.builder()
@@ -116,7 +116,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/2")
                 .point(100L)
                 .build();
         memberRepository.save(member1);
@@ -129,9 +128,7 @@ public class MemberRepositoryTest {
         // then
         assertThat(memberRepository.count()).isEqualTo(2);
         assertThat(findMember1.getNickname()).isEqualTo("kakao@1");
-        assertThat(findMember1.getProfileImageUrl()).isEqualTo("/root/1");
         assertThat(findMember2.getNickname()).isEqualTo("kakao@2");
-        assertThat(findMember2.getProfileImageUrl()).isEqualTo("/root/2");
     }
 
     @DisplayName("멘토 회원 조회")
@@ -145,7 +142,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/1")
                 .point(100L)
                 .build();
         Member mentor = Member.builder()
@@ -155,7 +151,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(true)
-                .profileImageUrl("/root/2")
                 .point(100L)
                 .build();
         memberRepository.save(member);
@@ -182,7 +177,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/1")
                 .point(100L)
                 .build();
         memberRepository.save(member);
@@ -205,7 +199,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/1")
                 .point(100L)
                 .build();
         Member saveMember = memberRepository.save(member);
@@ -254,7 +247,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/1")
                 .point(100L)
                 .build();
         Member saveMember = memberRepository.save(member);
@@ -278,7 +270,6 @@ public class MemberRepositoryTest {
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
-                .profileImageUrl("/root/resume001/1")
                 .point(100L)
                 .build();
         Member saveMember = memberRepository.save(member);
@@ -293,6 +284,5 @@ public class MemberRepositoryTest {
         assertThat(result.getIntroduce()).isEqualTo(saveMember.getIntroduce());
         assertThat(result.getPosition()).isEqualTo(saveMember.getPosition());
         assertThat(result.getSkills()).isEqualTo(saveMember.getSkills());
-
     }
 }

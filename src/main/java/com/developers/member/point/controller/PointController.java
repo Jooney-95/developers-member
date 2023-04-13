@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/point")
+@RequestMapping("/api/member/point")
 public class PointController {
     private final PointService pointService;
 

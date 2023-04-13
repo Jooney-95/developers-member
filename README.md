@@ -6,18 +6,54 @@ Developers 프로젝트의 사용자 관련 서비스 Backend 저장소입니다
 ```
 com.developers.member
  ┣ 📂config
- ┣ 📂constant       
- ┣ 📂problem
+ ┃ ┣ 📃JpaConfig
+ ┃ ┣ 📃WebConfig
+ ┣ 📂common
+ ┃ ┣ 📂entity
+ ┃ ┣ ┣ 📃BaseTimeEntity
+ ┣ 📂member
  ┃ ┣ 📂entity
  ┃ ┣ ┣ 📃Member
  ┃ ┣ 📂dto
+ ┃ ┣ ┣ 📂request
+ ┃ ┣ ┣ 📂response
+ ┃ ┗ 📂controller
+ ┃ ┣ ┣ 📃MemberController
  ┃ ┣ 📂service
+ ┃ ┣ ┣ 📃MemberService
+ ┃ ┣ ┣ 📃MemberServiceImpl
  ┃ ┣ 📂repository
  ┃ ┣ ┣ 📃MemberRepository
+ ┣ 📂point
+ ┃ ┣ 📂entity
+ ┃ ┣ ┣ 📃Point
+ ┃ ┣ 📂dto
+ ┃ ┣ ┣ 📂request
+ ┃ ┣ ┣ 📂response
  ┃ ┗ 📂controller
+ ┃ ┣ ┣ 📃PointController
+ ┃ ┣ 📂service
+ ┃ ┣ ┣ 📃PointService
+ ┃ ┣ ┣ 📃PointServiceImpl
+ ┃ ┣ 📂repository
+ ┃ ┣ ┣ 📃PointRepository
+ ┣ 📂career
+ ┃ ┣ 📂entity
+ ┃ ┣ ┣ 📃Career
+ ┃ ┣ 📂dto
+ ┃ ┣ ┣ 📂request
+ ┃ ┣ ┣ 📂response
+ ┃ ┗ 📂controller
+ ┃ ┣ ┣ 📃CareerController
+ ┃ ┣ 📂service
+ ┃ ┣ ┣ 📃CareerService
+ ┃ ┣ ┣ 📃CareerServiceImpl
+ ┃ ┣ 📂repository
+ ┃ ┣ ┣ 📃CareerRepository
 ```
 
 ## 개발환경 포트
+- [Gateway] API Gateway 서비스: 8080
 - [Member] 사용자 서비스: 9000
 - [Solve] 문제 풀이 서비스: 9001
 - [Live] 화상 채팅 서비스: 9002
