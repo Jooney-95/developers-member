@@ -25,7 +25,7 @@ public class Point extends BaseTimeEntity {
     private Long pointId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(name = "point", nullable = false)

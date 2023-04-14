@@ -19,7 +19,6 @@ public class MemberRegisterRequest {
     private String password;
     @NotBlank(message = "사용자의 닉네임은 공백일 수 없습니다.")
     private String nickname;
-    @NotBlank(message = "사용자의 프로필 이미지는 공백일 수 없습니다.")
     private String profileImageUrl;
     private String address;
     private String position;
@@ -32,7 +31,7 @@ public class MemberRegisterRequest {
                 .nickname(nickname)
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl(profileImageUrl)
+//                .profileImageUrl(profileImageUrl)
                 .address(address)
                 .position(position)
                 .skills(skills)

@@ -45,7 +45,6 @@ public class PointServiceTest {
                 .nickname("test001")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .point(100L)
                 .build();
@@ -74,7 +73,6 @@ public class PointServiceTest {
                 .nickname("test001")
                 .type(Type.LOCAL)
                 .role(Role.USER)
-                .profileImageUrl("/root/1")
                 .isMentor(false)
                 .point(100L)
                 .build();

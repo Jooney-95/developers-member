@@ -1,12 +1,10 @@
 package com.developers.member.member.controller;
 
+import com.developers.member.member.dto.request.AddressUpdateRequest;
 import com.developers.member.member.dto.request.NicknameUpdateRequest;
 import com.developers.member.member.dto.request.PasswordChangeRequest;
 import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
-import com.developers.member.member.dto.response.NicknameUpdateResponse;
-import com.developers.member.member.dto.response.PasswordChangeResponse;
-import com.developers.member.member.dto.response.ProfileGetResponse;
-import com.developers.member.member.dto.response.ProfileImageUpdateResponse;
+import com.developers.member.member.dto.response.*;
 import com.developers.member.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/member")
 public class ProfileController {
     private final MemberService memberService;
 
@@ -25,7 +23,7 @@ public class ProfileController {
      * @param memberId 사용자 PK 번호
      * @return ProfileGetResponse
      */
-    @GetMapping("/profile/{memberId}")
+    @GetMapping("/{memberId}")
     public ResponseEntity<ProfileGetResponse> getProfile(@PathVariable Long memberId) {
         ProfileGetResponse response = memberService.getProfile(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -47,7 +45,6 @@ public class ProfileController {
      * @param request 사용자의 PK 번호, 변경할 이미지 경로
      * @return ProfileImageUpdateResponse
      */
-
     @PatchMapping("/profileimg")
     public ResponseEntity<ProfileImageUpdateResponse> updateProfileImg(@Valid @RequestBody ProfileImageUpdateRequest request) {
         ProfileImageUpdateResponse response = memberService.updateProfileImg(request);
@@ -59,10 +56,20 @@ public class ProfileController {
      * @param request 사용자의 PK 번호, 변경할 비밀번호
      * @return PasswordChangeResponse
      */
-
     @PatchMapping("/password")
     public ResponseEntity<PasswordChangeResponse> changePassword(@Valid @RequestBody PasswordChangeRequest request) {
         PasswordChangeResponse response = memberService.changePassword(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    /**
+     * 거주지 변경
+     * @param request 사용자의 PK 번호, 변경할 거주지 정보
+     * @return AddressUpdateResponse
+     */
+    @PatchMapping("/address")
+    public ResponseEntity<AddressUpdateResponse> updateAddress(@Valid @RequestBody AddressUpdateRequest request) {
+        AddressUpdateResponse response = memberService.updateAddress(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

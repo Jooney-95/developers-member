@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CareerRepository extends JpaRepository<Career, Long> {
     List<Career> findByMember(Member member);
+
+    void deleteByMember(Member member);
 }
