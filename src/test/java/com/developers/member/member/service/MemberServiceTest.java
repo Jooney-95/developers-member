@@ -46,7 +46,7 @@ public class MemberServiceTest {
         MemberRegisterRequest request = MemberRegisterRequest.builder()
                 .email("test1@kakao.com")
                 .nickname("test1")
-                .password("kakao123")
+                .password(passwordEncoder.encode("kakao123"))
                 .profileImageUrl("/root/1")
                 .build();
         Member member = request.toEntity();

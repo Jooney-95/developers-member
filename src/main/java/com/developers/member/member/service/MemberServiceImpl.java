@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -25,12 +26,13 @@ import java.util.Optional;
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
-    private final CareerRepository careerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public MemberRegisterResponse register(MemberRegisterRequest request) {
         try {
             Member member = request.toEntity();
+            member.changePassword(passwordEncoder.encode(member.getPassword()));
             Long saveMemberId = memberRepository.save(member).getMemberId();
             MemberIdWithPointResponse response = MemberIdWithPointResponse.builder()
                     .memberId(saveMemberId)
