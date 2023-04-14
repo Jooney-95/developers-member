@@ -6,4 +6,5 @@ import lombok.Getter;
 @Getter
 public class UpdateMemberRefreshResponse {
     private String code;
+    private Long memberId;
 }

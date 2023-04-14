@@ -319,6 +319,7 @@ public class MemberServiceImpl implements MemberService {
             member.get().setRefreshToken(request.getRefreshToken());
             return UpdateMemberRefreshResponse.builder()
                     .code(HttpStatus.OK.toString())
+                    .memberId(member.get().getMemberId())
                     .build();
         } else {
             return UpdateMemberRefreshResponse.builder()
