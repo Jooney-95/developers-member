@@ -1,7 +1,7 @@
 package com.developers.member.member.repository;
 
 import com.developers.member.config.JpaConfig;
-import com.developers.member.config.WebSecurityConfig;
+import com.developers.member.config.SecurityConfig;
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.entity.Role;
 import com.developers.member.member.entity.Type;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,14 +24,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 /**
  * @DataJpaTest: JPA 테스트를 위한 어노테이션으로 JPA 관련 설정만 로드하여 테스트를 수행
  * @AutoConfigureTestDatabase: 테스트용 데이터베이스를 자동으로 구성해주는 어노테이션으로 replace 속성을 NONE으로 설정하여 실제 데이터베이스를 사용하여 테스트를 수행
- * @ActiveProfiles("local"): 테스트에 application-local.yml 설정파일을 사용하도록 설정
+ * @ActiveProfiles("local"): 테스트에 application-member-local.yml 설정파일을 사용하도록 설정
  * @Import(JpaConfig.class): 테스트 시 JpaConfig 클래스를 사용하도록 설정
  */
 
 //@SpringBootTest
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({JpaConfig.class, WebSecurityConfig.class})
+@Import({JpaConfig.class, SecurityConfig.class})
 @ActiveProfiles("prod")
 public class MemberRepositoryTest {
     @Autowired
