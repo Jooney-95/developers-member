@@ -84,7 +84,7 @@ build {
 task copyPrivate(type: Copy) {
     copy {
         from './developers-secret'
-        include "*.yml"
+        include "application-member-prod.yml"
         into 'src/main/resources'
     }
 }
