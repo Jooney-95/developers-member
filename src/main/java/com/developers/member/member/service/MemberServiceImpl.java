@@ -31,12 +31,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberRegisterResponse register(MemberRegisterRequest request) {
         try {
-            Member member = request.toEntity();
-            member.changePassword(passwordEncoder.encode(member.getPassword()));
-            Long saveMemberId = memberRepository.save(member).getMemberId();
+            Optional<Member> member = memberRepository.findByEmail(request.getEmail());
+            if (member.isPresent()) {
+                return MemberRegisterResponse.builder()
+                        .code(HttpStatus.BAD_REQUEST.toString())
+                        .msg("이미 가입된 이메일입니다.")
+                        .data(null)
+                        .build();
+            }
+            Member saveMember = request.toEntity();
+            saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
+            Long saveMemberId = memberRepository.save(saveMember).getMemberId();
             MemberIdWithPointResponse response = MemberIdWithPointResponse.builder()
                     .memberId(saveMemberId)
-                    .point(member.getPoint().getPoint())
+                    .point(saveMember.getPoint().getPoint())
                     .build();
             return MemberRegisterResponse.builder()
                     .code(HttpStatus.OK.toString())
