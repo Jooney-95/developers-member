@@ -1,6 +1,5 @@
 package com.developers.member.member.service;
 
-import com.developers.member.career.repository.CareerRepository;
 import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 import com.developers.member.member.entity.Member;

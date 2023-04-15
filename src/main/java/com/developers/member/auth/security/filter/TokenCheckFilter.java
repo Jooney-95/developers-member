@@ -61,13 +61,21 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         // api로 시작하지 않는 요청이라면 다음 필터로 넘긴다.
         // doFilterInternal는 리턴 타입이 void이기 때문에 리턴을 안해도 될 것 같지만, 리턴을 반드시 해야한다.
         // return을 만날 때까지 무조건 수행된다.
-        if (!path.startsWith("/api/") || path.startsWith("/api/auth/register")) {
+        // 회원가입 외 로그인 없이 보여줘야할 화면에서 요청할 API를 허용해야 함.
+        if (path.startsWith("/api/auth/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (!path.startsWith("/api/")) {
             log.info("[TokenCheckFilter] Skip Token Check Filter");
             filterChain.doFilter(request, response);
             return;
         }
+
         log.info("[TokenCheckFilter] Token Check Filter !");
         log.info("[TokenCheckFilter] JWTUtil: {}", jwtUtil);
+
         try {
             validateAccessToken(request);
             // 다음 필터에게 처리를 넘긴다.
