@@ -60,9 +60,8 @@ public class MemberServiceTest {
         // then
         assertThat(response.getCode()).isEqualTo(HttpStatus.OK.toString());
         assertThat(response.getMsg()).isEqualTo("회원가입이 정상적으로 처리되었습니다.");
-        assertThat(response.getData()).isInstanceOf(MemberIdWithPointResponse.class);
+        assertThat(response.getData()).isInstanceOf(MemberIdResponse.class);
         assertThat(response.getData().getMemberId()).isEqualTo(member.getMemberId());
-        assertThat(response.getData().getPoint()).isEqualTo(100L);
     }
 
     @DisplayName("작성자 닉네임 정보 조회")

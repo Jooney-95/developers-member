@@ -36,17 +36,22 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADTYPE);
         }
         // 토큰의 유효성 검사하기
+        /**
+         * MalformedJwtException: JWT의 형식이 잘못되어 파싱할 수 없는 경우 발생함. 올바른 형식의 JWT가 아닌 일반 문자열을 파싱하려고 할 때 발생할 수 있음.
+         * SignatureException: JWT의 서명 검증이 실패한 경우 발생함. JWT의 서명은 발행한 서버가 유효한 것으로 증명하기 위해 사용되며, 이 예외는 서명 검증에 실패한 경우 발생함.
+         * ExpiredJwtException: JWT가 만료된 경우 발생함. JWT에는 발행 시간과 만료 시간이 포함되며, 이 예외는 JWT의 만료 시간이 현재 시간보다 이전인 경우 발생함.
+         */
         try{
             Map<String, Object> values = jwtUtil.validateToken(tokenStr);
             return values;
         }catch(MalformedJwtException malformedJwtException){
-            log.error("[TokenCheckFilter] MalformedJwtException !");
+            log.error("[TokenCheckFilter] Token Validation Fail - MalformedJwtException");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.MALFORM);
         }catch(SignatureException signatureException){
-            log.error("[TokenCheckFilter] SignatureException !");
+            log.error("[TokenCheckFilter] Token Validation Fail - SignatureException");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADSIGN);
         }catch(ExpiredJwtException expiredJwtException){
-            log.error("[TokenCheckFilter] ExpiredJwtException !");
+            log.error("[TokenCheckFilter] Token Validation Fail - ExpiredJwtException");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.EXPIRED);
         }
     }
@@ -58,15 +63,20 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         // 클라이언트의 URI 확인하기
         String path = request.getRequestURI();
         log.info("[TokenCheckFilter] request URI: {}", path);
-        // api로 시작하지 않는 요청이라면 다음 필터로 넘긴다.
-        // doFilterInternal는 리턴 타입이 void이기 때문에 리턴을 안해도 될 것 같지만, 리턴을 반드시 해야한다.
-        // return을 만날 때까지 무조건 수행된다.
-        // 회원가입 외 로그인 없이 보여줘야할 화면에서 요청할 API를 허용해야 함.
+
+        /**
+         * 인증 처리가 필요없다면 TokenCheckFilter 로직을 수횅할 필요가 없음.
+         * 사용자: 로그인, 회원가입
+         * 문제풀이: 전체 문제 목록 조회
+         * 멘토링: 전체 방 목록 조회
+         */
         if (path.startsWith("/api/auth/register")) {
             filterChain.doFilter(request, response);
             return;
         }
-
+        // api로 시작하지 않는 요청이라면 다음 필터로 넘긴다.
+        // doFilterInternal는 리턴 타입이 void이기 때문에 리턴을 안해도 될 것 같지만, 리턴을 반드시 해야한다.
+        // return을 만날 때까지 무조건 수행된다.
         if (!path.startsWith("/api/")) {
             log.info("[TokenCheckFilter] Skip Token Check Filter");
             filterChain.doFilter(request, response);

@@ -55,9 +55,8 @@ public class RegisterControllerTest {
                 .position("백엔드,데브옵스")
                 .skills("Java,Spring")
                 .build();
-        MemberIdWithPointResponse data = MemberIdWithPointResponse.builder()
+        MemberIdResponse data = MemberIdResponse.builder()
                 .memberId(1L)
-                .point(100L)
                 .build();
         MemberRegisterResponse response = MemberRegisterResponse.builder()
                 .code(HttpStatus.OK.toString())

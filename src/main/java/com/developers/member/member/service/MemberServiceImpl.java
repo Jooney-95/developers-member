@@ -30,20 +30,27 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberRegisterResponse register(MemberRegisterRequest request) {
         try {
-            Optional<Member> member = memberRepository.findByEmail(request.getEmail());
-            if (member.isPresent()) {
+            Optional<Member> memberByEmail = memberRepository.findByEmail(request.getEmail());
+            Optional<Member> memberByNickname = memberRepository.findByNickname(request.getNickname());
+            if (memberByEmail.isPresent()) {
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 가입된 이메일입니다.")
                         .data(null)
                         .build();
             }
+            if (memberByNickname.isPresent()) {
+                return MemberRegisterResponse.builder()
+                        .code(HttpStatus.BAD_REQUEST.toString())
+                        .msg("이미 사용중인 닉네임입니다.")
+                        .data(null)
+                        .build();
+            }
             Member saveMember = request.toEntity();
             saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
             Long saveMemberId = memberRepository.save(saveMember).getMemberId();
-            MemberIdWithPointResponse response = MemberIdWithPointResponse.builder()
+            MemberIdResponse response = MemberIdResponse.builder()
                     .memberId(saveMemberId)
-                    .point(saveMember.getPoint().getPoint())
                     .build();
             return MemberRegisterResponse.builder()
                     .code(HttpStatus.OK.toString())
