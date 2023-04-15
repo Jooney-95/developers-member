@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
  *
  */
 @ExtendWith(MockitoExtension.class)
+@WithMockUser(roles = "USER")
 public class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;

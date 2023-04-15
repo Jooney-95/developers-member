@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: member-prod
+    active: prod
     group:
       local: member-local
       dev: member-dev

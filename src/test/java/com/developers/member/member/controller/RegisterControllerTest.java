@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(RegisterController.class)
+@WithMockUser(roles = "USER")
 public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -65,7 +67,7 @@ public class RegisterControllerTest {
         given(memberService.register(any())).willReturn(response);
 
         // when
-        mockMvc.perform(post("/api/member/register")
+        mockMvc.perform(post("/api/auth/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -94,7 +96,7 @@ public class RegisterControllerTest {
         given(memberService.removeMember(any())).willReturn(response);
 
         // when
-        mockMvc.perform(delete("/api/member/" + memberId)
+        mockMvc.perform(delete("/api/auth/" + memberId)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberId))

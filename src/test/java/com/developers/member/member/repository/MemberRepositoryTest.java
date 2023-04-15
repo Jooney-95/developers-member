@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -31,13 +32,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 //@SpringBootTest
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({JpaConfig.class, SecurityConfig.class})
-@ActiveProfiles("prod")
+@Import(JpaConfig.class)
+@ActiveProfiles("member-prod")
+@WithMockUser(roles = "USER")
 public class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @DisplayName("한명의 회원 데이터 저장")
     @Test
@@ -45,7 +45,7 @@ public class MemberRepositoryTest {
         // given
         Member member = Member.builder()
                 .email("lango@kakao.com")
-                .password(passwordEncoder.encode("kakao123"))
+                .password("kakao123")
                 .nickname("lango")
                 .type(Type.LOCAL)
                 .role(Role.USER)
