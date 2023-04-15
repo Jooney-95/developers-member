@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: prod
+    active: member-prod
     group:
-      local: local
-      dev: dev
-      prod: prod
+      local: member-local
+      dev: member-dev
+      prod: member-prod
 
 logging:
   level:
