@@ -14,10 +14,10 @@ import lombok.ToString;
 public class MemberRegisterResponse {
     private String code;
     private String msg;
-    private MemberIdWithPointResponse data;
+    private MemberIdResponse data;
 
     @Builder
-    public MemberRegisterResponse(String code, String msg, MemberIdWithPointResponse data) {
+    public MemberRegisterResponse(String code, String msg, MemberIdResponse data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
