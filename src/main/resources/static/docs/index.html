@@ -454,7 +454,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/register?_csrf=_pTgzWEvJcwttMmQ7ql1qtllz2laA_Oi68fqrDmO3CnS4qewnaHW_lgaQK8AgPCoioRBnL8A4lBuZsaP2_SOzQ677Rnq1MGJ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/auth/register?_csrf=dL5tjy7JCzyXkXykuK5-mXA0wfVGyuzvzeQrS1JGEXo_2kvnFo1ZukuvOl66qUuUioNKqRFW7M13_4rC-NEYcjZxdEwM6y_X HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 210
 Host: localhost:8080
@@ -477,14 +477,19 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 147
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 128
 
 {
   "code" : "200 OK",
   "msg" : "회원가입이 정상적으로 처리되었습니다.",
   "data" : {
-    "memberId" : 1,
-    "point" : 100
+    "memberId" : 1
   }
 }</code></pre>
 </div>
@@ -497,7 +502,7 @@ Content-Length: 147
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/member/1?_csrf=b2AGOKUGC_wxGaqQGS1spX9S0qBq5j5HiS2RQ3lRut-orvqdWwIxXJwzaJ8cLsn2KgBYxEtj_8Jd0Fpqvh-lc05jibvOn5z7 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/auth/1?_csrf=sYbyR_q1v-A81PcO5HFCZQzrr_euDfHFaHDYi4aNbFLoV_6wg-TKdM-BidMR45E43Fx2Vj3fgpbKOZToXBXhv-S7XmvaYc6J HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -512,6 +517,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 136
 
 {
@@ -536,7 +547,7 @@ Content-Length: 136
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/1?_csrf=Oh8Ev5a06s0RJAtsfWv2o4r64wk6H4bsYDqehZ9Mv--YUEi5WHkz3fTX2_08EWheGEbCxb2ezjEDLrXBVV_7tf58h4ypZ3-I HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/1?_csrf=6I7vX0UfNmB7z1KLhvPjtvMFr4P_WryThvh68UDvWjIk7nT-ievfbXMtDwVW-WC8vt7XgMVnguGbaN6-5M4fwSSOYgFBj0PL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -551,6 +562,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 396
 
 {
@@ -578,7 +595,7 @@ Content-Length: 396
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/nickname?_csrf=OYLaqZ8yek-BOnKw90VnO6v9d3EQuy5IuByFt3C2U6LXitTKAODpzK5TS3usCkaIkmhTWc-ZWhMhjkhl2XmwhEKCYpO26eev HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/nickname?_csrf=Dz9MLgsQrc39L9aNgxhYYwpwDaa3Aldf0FiIFmQ1Au9G6tOoN150SzJ1yPrQFuXvtjVsUWhDIMeGO29yszzsJ1FRM9hy2OXJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 50
 Host: localhost:8080
@@ -594,7 +611,13 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -605,7 +628,7 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/profileimg?_csrf=bU2W-3e0X6Y7YVruE0YEH5qzmwuse4-4oSswjfZ0Vd3ApgZWXCzzmBWNZ5EWWWmKdmswLKiDtmrJTryVkE0A78RAbeX3wGJi HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/profileimg?_csrf=tcX39RyD2HROFr__uqLzGe15zZjoEaZcY25T0Rw_n9f7h47IhabAzX-3ukVjL9rOiY_HLNpO4PrYJ5NxWw8w4X0MreDDte_- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 54
 Host: localhost:8080
@@ -623,6 +646,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 146
 
 {
@@ -642,7 +671,7 @@ Content-Length: 146
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/password?_csrf=nOjQ6O00NPUnTpt1qy54VYv3qHPBLRcsC1JLEp1euI7cUX5yrtDp2NQDVpYKKKsUnwNMYu6WhRL1FSEBOzApcf84i766YhtA HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/password?_csrf=WTRNp_l-pM587nlsBTWFdHB_iavYmXavvT3mjzswUwpFntyhP1AplMBKkqpRjUsKZhixFUIbpJO6_UWCiV-Fvl8JZTkm-umV HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 47
 Host: localhost:8080
@@ -660,6 +689,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 128
 
 {
@@ -679,7 +714,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/address?_csrf=1iKTS3ylPnYkLml0sD-c0uJwwVgfv26kj857YCyrQT6MxvV3sBKnKEzAWEEJSlsS0hKot4dF7DksiF2Jt6gZVx-fcl-09ZZC HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/address?_csrf=YIt54SZGfXW-LVHoLfxmuJczzErrOigDk-QnZ3XoLdPA7zsJWb5MghQjTxGTS2DcHtFS26AA4XLSCUouptZBBBPeSbL03wMx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 44
 Host: localhost:8080
@@ -697,6 +732,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 129
 
 {
@@ -721,7 +762,7 @@ Content-Length: 129
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/resume?_csrf=DCtec1BoKyLnsrQS6bqnna1G1jCK07a9Esvk0bjiiPPD7bjvaBlvQWlaShXKgYQl3JeT-Jp3-wns69SQJaiFs4HVvceliYmO HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/resume?_csrf=LSXxx-bHKp5pUpxC3hCFz9x0K4MP39riLdiAqNAezgPTkLweSEfEpIT2TqpEZaty5z2xqupHBuI67rzPFLzly7F6rTrl89p9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 140
 Host: localhost:8080
@@ -741,6 +782,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 128
 
 {
@@ -765,7 +812,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/career/1?_csrf=JBrSzKQbUBOty0az0LfXsQ73UaWas25WQeBoFqFGhii0Wy_XHSrj_pV5aHGA_XOBtprjiT_GfJyihAp7INkLcJN05x-Ebkm0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/career/1?_csrf=J-lO4x4oIiwBjw787OFGOTdcMxbs6fVwB79sKOppfD_48dkTFtB5gChKEhssum_NjcxyDlNlHi-J28NdP90NStIKHwvIw-0i HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -780,6 +827,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 392
 
 {
@@ -791,8 +844,8 @@ Content-Length: 392
     "skills" : "Java,Spring",
     "careerList" : [ {
       "company" : "카카오",
-      "careerStart" : "2023-04-14",
-      "careerEnd" : "2023-04-14"
+      "careerStart" : "2023-04-17",
+      "careerEnd" : "2023-04-17"
     } ]
   }
 }</code></pre>
@@ -806,15 +859,15 @@ Content-Length: 392
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/career?_csrf=vqoeXG9Pc43IjJbP1CvPMf20MvuArv6D5LF5JnfJyaxtQr763Mh7PgorS-zl7_L-7Qb7BsuDH8Pjz8qu3YhLH06o8Z4IJIjL HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/career?_csrf=Vc9yZ8ot_MLqZCA6ZJgbI5Xd2r6KD0DQjMYkHtEtvHhde_bVN6pBAagfnfvHAUQNXLUvQKC894e4aXT976IdLrUU30pvQsO2 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 91
 Host: localhost:8080
 
 {
   "company" : "카카오",
-  "careerStart" : "2023-04-14",
-  "careerEnd" : "2023-04-14"
+  "careerStart" : "2023-04-17",
+  "careerEnd" : "2023-04-17"
 }</code></pre>
 </div>
 </div>
@@ -825,6 +878,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 128
 
 {
@@ -844,7 +903,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/career?_csrf=0aJMBv5lCxa7rEpakfigAi9aiDYrG06oUlfnqt6Qu-XgUY1dt5B-YM9VPCKWlX44p9WUZB88pQ9NIiqFZjTVnO3039CDabht HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/career?_csrf=0nGxF2wgTMAloIEusS71K-_iDhBGzs2Zqd1Js0tObOyzOYI85kGJIF1EL_AIl7Ua1APBEoyBIyl-_Km0m7h4i3p3W9qDX-NY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 121
 Host: localhost:8080
@@ -852,8 +911,8 @@ Host: localhost:8080
 {
   "careerId" : 1,
   "company" : "마이다스아이티",
-  "careerStart" : "2023-04-14",
-  "careerEnd" : "2023-04-14"
+  "careerStart" : "2023-04-17",
+  "careerEnd" : "2023-04-17"
 }</code></pre>
 </div>
 </div>
@@ -864,6 +923,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 128
 
 {
@@ -883,7 +948,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/member/career/1?_csrf=oqY48h2ras2tU2I4GKPfo3Sh6v2-oqlGGw2oBsWD_qadxqgxxJEOwi7KWviAMlsAIY7rlhLAx8XdkctreDWaZPy2m5b5osxS HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/member/career/1?_csrf=YzHaNVJyEJwuQ9HFrpSgUD62EVkJqwdya4vP0V9G9wZVRza1VgLiV2RHJK8Dd-L0nbmUZgrUPDs4zjJfWL725W11wj9hcVKE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -898,6 +963,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 128
 
 {
@@ -922,7 +993,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/point/increase?_csrf=svLv42OEo8WQ42Xs7ghG7Eu2_Ng9VSs5cj-X4AuX_3ysYa4MgpaJ1lfiwfy91gPajCVy2y-E0eEFMxgUFluj2GmnzkScUps1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/point/increase?_csrf=puYWZX16e-eoqZzqs0c41olutK7EAdh65ft9wdPCo5-04KceltZzA08ZGoOFnv3b1WoMsrxcmZaiMb5Xg8sY9eSgwvmCgZF9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 20
 Host: localhost:8080
@@ -939,6 +1010,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 141
 
 {
@@ -959,7 +1036,7 @@ Content-Length: 141
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/point/decrease?_csrf=TsOhgVd0PFfKERtLZrsyH3DZdif1FpT3Z8elY87Lhz68HtLvfqXAsmQXXTLndX95UpYGLkXhW0XFdfXaVPPEVfmpsVrdK-Xd HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/point/decrease?_csrf=mE9l6MXIkY29LtbZZtxeYmvKEEm5XnawcbiPEyUK-nXtEtiH_HdRjKbx8riQT-XsBPFqVVj7PXCAP06dF9u8dRc-zxTUK-Hi HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 20
 Host: localhost:8080
@@ -976,6 +1053,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 141
 
 {
@@ -1001,7 +1084,7 @@ Content-Length: 141
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/badge/1?_csrf=VZlcN3nxBbmS2T_RqgaJTNXAbJOyIrcIs8T-efIZity38Rv3bPw6DxyXYIq_vVnhnyu9eeLzQaqHEtYl1_fNT5d6srrUxHmR HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/badge/1?_csrf=BxlOJQIJjcbIpAaZHLcvgB8l6xj72E8ATQ_dibrzu-JpIqemZSgtEGM8uKLllz_4f5ob5n1ExnrO7XgtL2np6I3HgtoIFJHH HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -1016,6 +1099,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 209
 
 {
@@ -1038,7 +1127,7 @@ Content-Length: 209
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/badge/1/pick?_csrf=0CbRKSBHAgUnsvfkNkjkFm6EMyy69JHncBJQrO1b2ITTb-9Z5hawSBR1NzEKhMaCUmXQc1u3HhWLlaPKSCJomo896b3nWNg7 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/member/badge/1/pick?_csrf=wHTp4raUhrMQj3eDCO7UVyNU8zhrg8p7uRxZNiAhPnhYqXAb8kzZhtCg5IA9uE_ia8PgMRZm3lkN5fxWjy09AUMTCE1gyxYp HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1
 Host: localhost:8080
@@ -1053,6 +1142,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 177
 
 {
@@ -1073,7 +1168,7 @@ Content-Length: 177
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/badge?_csrf=zHFJB1-jcvMSzlLFGhIwBbB1SRJOFWU0o5wp8snNQNhKZgWr9BB9Y2mTS8s_-mr8KT8EPYNGZHB6c1MZl6oewq39JuAoUmGZ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/member/badge?_csrf=LvGjOpcD9n41_wsUqlTsGWsCkl4bpQMkhwOqn5hOrvLqNtOuT8GbD6U0kkwYzT0nyHnYKlNnvz8pxGIJsDOfr_x9m8aOArKa HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 Host: localhost:8080
@@ -1091,6 +1186,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 177
 
 {
@@ -1111,7 +1212,7 @@ Content-Length: 177
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/badge?_csrf=wDubQeuvxX6b1M-b8mYI-_94cZslMBAUQk-gDwD3fE5hW1_G8w__cYqXpEi25vr9k0s8nslJXPlACHM5IXiYbDiSTnZVPmai HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/member/badge?_csrf=kS9nrydV03PjIDqxCsV7jyXUZi9yceCZ_BFquMvL2fCiNUY-pxlTnhY05UrOGAqHMuhPuUC3S04UFYO0mHNb2_6q78WVBiRb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 52
 Host: localhost:8080
@@ -1129,6 +1230,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
 Content-Length: 119
 
 {
@@ -1143,11 +1250,58 @@ Content-Length: 119
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_attach_api"><a class="link" href="#_attach_api">Attach API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_사용자_프로필_이미지_등록_및_수정"><a class="link" href="#_사용자_프로필_이미지_등록_및_수정">사용자 프로필 이미지 등록 및 수정</a></h3>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/attach/profile HTTP/1.1
+Content-Type: application/json;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=file; filename=test.jpg
+Content-Type: image/jpeg
+
+test
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 112
+
+{
+  "code" : "200 OK",
+  "msg" : "정상적으로 프로필 이미지를 등록했습니다.",
+  "data" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-14 01:33:37 +0900
+Last updated 2023-04-17 00:56:13 +0900
 </div>
 </div>
 </body>

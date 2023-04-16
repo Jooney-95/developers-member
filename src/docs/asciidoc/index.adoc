@@ -173,3 +173,14 @@ include::{snippets}/member/badge/save-badge/http-request.adoc[]
 
 Response
 include::{snippets}/member/badge/save-badge/http-response.adoc[]
+
+
+== Attach API
+
+=== 사용자 프로필 이미지 등록 및 수정
+
+Request
+include::{snippets}/attach/profile/http-request.adoc[]
+
+Response
+include::{snippets}/attach/profile/http-response.adoc[]
