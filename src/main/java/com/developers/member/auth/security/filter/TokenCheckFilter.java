@@ -22,10 +22,12 @@ public class TokenCheckFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     private Map<String, Object> validateAccessToken(HttpServletRequest request) throws AccessTokenException {
-        //
         String headerStr = request.getHeader("Authorization");
+        log.info("[TokenCheckFilter] request header: {}", headerStr);
+
         // 아래 조건을 만족하지 않는다면 예외 발생
         if(headerStr == null || headerStr.length() < 8){
+            log.info("[TokenCheckFilter] request header str is null or length < 8");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.UNACCEPT);
         }
         // Bearer 생략, 실제 토큰 가져오기
@@ -33,6 +35,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         String tokenStr = headerStr.substring(7);
         // 타입 검사하기
         if(tokenType.equalsIgnoreCase("Bearer") == false){
+            log.info("[TokenCheckFilter] request token start str Bearer");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADTYPE);
         }
         // 토큰의 유효성 검사하기
@@ -71,6 +74,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
          * 멘토링: 전체 방 목록 조회
          */
         if (path.startsWith("/api/auth/register")) {
+            log.info("[TokenCheckFilter] Skip Token Check Filter");
             filterChain.doFilter(request, response);
             return;
         }
