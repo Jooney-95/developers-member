@@ -80,7 +80,8 @@ public class TokenCheckFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/room/{searchingword}")
                 || path.startsWith("/api/problem")
                 || path.startsWith("/api/problem/list")
-                || path.startsWith("/api/problem/{problemId}/{member}")) {
+                || path.startsWith("/api/problem/{problemId}/{member}")
+                || path.startsWith("/api/auth/member")) {
             log.info("[TokenCheckFilter] Skip Token Check Filter");
             filterChain.doFilter(request, response);
             return;
