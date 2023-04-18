@@ -73,7 +73,14 @@ public class TokenCheckFilter extends OncePerRequestFilter {
          * 문제풀이: 전체 문제 목록 조회
          * 멘토링: 전체 방 목록 조회
          */
-        if (path.startsWith("/api/auth/register")) {
+        if (path.startsWith("/api/auth/register")
+                || path.startsWith("/api/room")
+                || path.startsWith("/api/room/next")
+                || path.startsWith("/api/room/top")
+                || path.startsWith("/api/room/{searchingword}")
+                || path.startsWith("/api/problem")
+                || path.startsWith("/api/problem/list")
+                || path.startsWith("/api/problem/{problemId}/{member}")) {
             log.info("[TokenCheckFilter] Skip Token Check Filter");
             filterChain.doFilter(request, response);
             return;
