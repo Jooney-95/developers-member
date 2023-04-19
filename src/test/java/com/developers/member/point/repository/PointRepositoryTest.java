@@ -38,7 +38,7 @@ public class PointRepositoryTest {
     public void increasePoint() {
         // given
         Member member = Member.builder()
-                .email("lango@kakao.com")
+                .email("testpointincrease001@kakao.com")
                 .password("kakao123")
                 .nickname("lango")
                 .type(Type.LOCAL)
@@ -50,6 +50,7 @@ public class PointRepositoryTest {
                 .build();
         memberRepository.save(member);
         Optional<Member> saveMember = memberRepository.findById(member.getMemberId());
+        System.out.println(saveMember.get().getMemberId());
         Point point = saveMember.get().getPoint();
         point.increase(10L);
         pointRepository.save(point);
@@ -66,7 +67,7 @@ public class PointRepositoryTest {
     public void decreasePoint() {
         // given
         Member member = Member.builder()
-                .email("lango@kakao.com")
+                .email("testpointdecrease001@kakao.com")
                 .password("kakao123")
                 .nickname("lango")
                 .type(Type.LOCAL)

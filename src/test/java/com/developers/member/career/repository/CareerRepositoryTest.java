@@ -20,6 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -145,9 +146,9 @@ public class CareerRepositoryTest {
         memberRepository.save(member);
         Career saveCareer = careerRepository.save(career);
         careerRepository.deleteById(saveCareer.getCareerId());
-        List<Career> result = careerRepository.findAll();
+        Optional<Career> result = careerRepository.findById(saveCareer.getCareerId());
 
         // then
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 }

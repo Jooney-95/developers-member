@@ -69,16 +69,30 @@ public class CareerServiceImpl implements CareerService {
     @Override
     public MemberCareerResponse saveCareer(MemberCareerSaveRequest request) {
         try {
-            Career career = request.toEntity();
-            careerRepository.save(career);
-            CareerIdResponse careerId = CareerIdResponse.builder()
-                    .careerId(career.getCareerId())
-                    .build();
-            return MemberCareerResponse.builder()
-                    .code(HttpStatus.OK.toString())
-                    .msg("정상적으로 경력정보가 등록되었습니다.")
-                    .data(careerId)
-                    .build();
+            Optional<Member> member = memberRepository.findById(request.getMemberId());
+            if(member.isPresent()) {
+                Career career = Career.builder()
+                        .member(member.get())
+                        .company(request.getCompany())
+                        .start(request.getCareerStart())
+                        .end(request.getCareerEnd())
+                        .build();
+                careerRepository.save(career);
+                CareerIdResponse careerId = CareerIdResponse.builder()
+                        .careerId(career.getCareerId())
+                        .build();
+                return MemberCareerResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("정상적으로 경력정보가 등록되었습니다.")
+                        .data(careerId)
+                        .build();
+            } else {
+                return MemberCareerResponse.builder()
+                        .code(HttpStatus.NOT_FOUND.toString())
+                        .msg("존재하지 않는 사용자입니다.")
+                        .data(null)
+                        .build();
+            }
         } catch (Exception e) {
             return MemberCareerResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
