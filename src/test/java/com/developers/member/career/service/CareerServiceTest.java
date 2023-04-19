@@ -45,12 +45,28 @@ public class CareerServiceTest {
     public void saveCareer() {
         LocalDate curruntDate = LocalDate.now();
         // given
+        Member member = Member.builder()
+                .email("test001@kakao.com")
+                .password("kakao123")
+                .nickname("test001")
+                .type(Type.LOCAL)
+                .role(Role.USER)
+                .isMentor(false)
+                .point(100L)
+                .build();
         MemberCareerSaveRequest request = MemberCareerSaveRequest.builder()
+                .memberId(member.getMemberId())
                 .company("마이다스 아이티")
                 .careerStart(curruntDate)
                 .careerEnd(curruntDate)
                 .build();
-        Career career = request.toEntity();
+        Career career = Career.builder()
+                .member(member)
+                .company(request.getCompany())
+                .start(request.getCareerStart())
+                .end(request.getCareerEnd())
+                .build();
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
         when(careerRepository.save(any())).thenReturn(career);
 
         // when

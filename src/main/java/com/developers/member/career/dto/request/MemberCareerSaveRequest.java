@@ -11,15 +11,8 @@ import java.util.List;
 @Builder
 @Getter
 public class MemberCareerSaveRequest {
+    private Long memberId;
     private String company;
     private LocalDate careerStart;
     private LocalDate careerEnd;
-
-    public Career toEntity() {
-        return Career.builder()
-                .company(company)
-                .start(careerStart)
-                .end(careerEnd)
-                .build();
-    }
 }

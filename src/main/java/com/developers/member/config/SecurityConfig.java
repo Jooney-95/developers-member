@@ -108,16 +108,12 @@ public class SecurityConfig {
 
         // APILoginFilter의 위치 조정, 로그인 필터 적용
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
-
         // Acess 토큰 검증 필터 적용하기
         http.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
         // Refresh 토큰 컴증 필터를 적용하기
         http.addFilterBefore(new RefreshTokenFilter("/api/auth/refresh", jwtUtil), TokenCheckFilter.class);
-
         // API Server는 세션을 사용하지 않기에 세션 사용 중지
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         // API Server에서 동작헤야 하기 때문에 CORS 설정 추가
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
