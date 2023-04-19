@@ -33,6 +33,7 @@ public class CareerServiceImpl implements CareerService {
                 List<MemberOfCareer> careerList = new ArrayList<>();
                 for(Career career : careers) {
                     MemberOfCareer m = MemberOfCareer.builder()
+                            .careerId(career.getCareerId())
                             .company(career.getCompany())
                             .careerStart(career.getStart())
                             .careerEnd(career.getEnd())
