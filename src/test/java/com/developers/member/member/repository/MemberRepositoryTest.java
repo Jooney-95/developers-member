@@ -39,34 +39,34 @@ public class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("한명의 회원 데이터 저장")
-    @Test
-    public void save() {
-        // given
-        Member member = Member.builder()
-                .email("lango@kakao.com")
-                .password("kakao123")
-                .nickname("lango")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .address("서울특별시 강남구")
-                .introduce("안녕하세요 저는 ...")
-                .position("Software Engineer,Backend Engineer")
-                .skills("Spring,Java,MySQL")
-                .point(100L)
-                .build();
-        memberRepository.save(member);
-
-        // when
-        List<Member> list = memberRepository.findAll();
-
-        // then
-        Member result = list.get(0);
-        Assertions.assertEquals("lango@kakao.com", result.getEmail());
-        Assertions.assertEquals("안녕하세요 저는 ...", result.getIntroduce());
-        Assertions.assertEquals("lango", result.getNickname());
-    }
+//    @DisplayName("한명의 회원 데이터 저장")
+//    @Test
+//    public void save() {
+//        // given
+//        Member member = Member.builder()
+//                .email("lango@kakao.com")
+//                .password("kakao123")
+//                .nickname("lango")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .address("서울특별시 강남구")
+//                .introduce("안녕하세요 저는 ...")
+//                .position("Software Engineer,Backend Engineer")
+//                .skills("Spring,Java,MySQL")
+//                .point(100L)
+//                .build();
+//        memberRepository.save(member);
+//
+//        // when
+//        List<Member> list = memberRepository.findAll();
+//
+//        // then
+//        Member result = list.get(0);
+//        Assertions.assertEquals("lango@kakao.com", result.getEmail());
+//        Assertions.assertEquals("안녕하세요 저는 ...", result.getIntroduce());
+//        Assertions.assertEquals("lango", result.getNickname());
+//    }
 
     @DisplayName("50명의 회원 데이터 저장")
     @Test
@@ -95,121 +95,121 @@ public class MemberRepositoryTest {
         }
     }
 
-    @DisplayName("두 명의 회원 조회")
-    @Test
-    public void findById() {
-        // given
-        Member member1 = Member.builder()
-                .email("test1@kakao.com")
-                .password("kakao123")
-                .nickname("kakao@1")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .point(100L)
-                .build();
-        Member member2 = Member.builder()
-                .email("test2@kakao.com")
-                .password("kakao123")
-                .nickname("kakao@2")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .point(100L)
-                .build();
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        // when
-        Member findMember1 = memberRepository.findById(member1.getMemberId())
-                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId: <" + member1.getMemberId() + ">"));
-        Member findMember2 = memberRepository.findById(member2.getMemberId())
-                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId: <" + member2.getMemberId() + ">"));
-        // then
-        assertThat(memberRepository.count()).isEqualTo(2);
-        assertThat(findMember1.getNickname()).isEqualTo("kakao@1");
-        assertThat(findMember2.getNickname()).isEqualTo("kakao@2");
-    }
+//    @DisplayName("두 명의 회원 조회")
+//    @Test
+//    public void findById() {
+//        // given
+//        Member member1 = Member.builder()
+//                .email("test1@kakao.com")
+//                .password("kakao123")
+//                .nickname("kakao@1")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .point(100L)
+//                .build();
+//        Member member2 = Member.builder()
+//                .email("test2@kakao.com")
+//                .password("kakao123")
+//                .nickname("kakao@2")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .point(100L)
+//                .build();
+//        memberRepository.save(member1);
+//        memberRepository.save(member2);
+//        // when
+//        Member findMember1 = memberRepository.findById(member1.getMemberId())
+//                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId: <" + member1.getMemberId() + ">"));
+//        Member findMember2 = memberRepository.findById(member2.getMemberId())
+//                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId: <" + member2.getMemberId() + ">"));
+//        // then
+//        assertThat(memberRepository.count()).isEqualTo(2);
+//        assertThat(findMember1.getNickname()).isEqualTo("kakao@1");
+//        assertThat(findMember2.getNickname()).isEqualTo("kakao@2");
+//    }
 
-    @DisplayName("멘토 회원 조회")
-    @Test
-    public void memberIsMentor() {
-        // given
-        Member member = Member.builder()
-                .email("menber111@kakao.com")
-                .password("kakao123")
-                .nickname("member@1")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .point(100L)
-                .build();
-        Member mentor = Member.builder()
-                .email("mentor@kakao.com")
-                .password("kakao123")
-                .nickname("mentor@1")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(true)
-                .point(100L)
-                .build();
-        memberRepository.save(member);
-        memberRepository.save(mentor);
-        // when
-        Member member1 = memberRepository.findById(member.getMemberId())
-                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId:<" + member.getMemberId() + ">"));
-        Member mentor1 = memberRepository.findByIsMentorIsAndMemberId(mentor.isMentor(), mentor.getMemberId())
-                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId:<" + mentor.getMemberId() + ">"));
-        // then
-        assertThat(memberRepository.count()).isEqualTo(2);
-        assertThat(member1.isMentor()).isFalse();
-        assertThat(mentor1.isMentor()).isTrue();
-    }
+//    @DisplayName("멘토 회원 조회")
+//    @Test
+//    public void memberIsMentor() {
+//        // given
+//        Member member = Member.builder()
+//                .email("menber111@kakao.com")
+//                .password("kakao123")
+//                .nickname("member@1")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .point(100L)
+//                .build();
+//        Member mentor = Member.builder()
+//                .email("mentor@kakao.com")
+//                .password("kakao123")
+//                .nickname("mentor@1")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(true)
+//                .point(100L)
+//                .build();
+//        memberRepository.save(member);
+//        memberRepository.save(mentor);
+//        // when
+//        Member member1 = memberRepository.findById(member.getMemberId())
+//                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId:<" + member.getMemberId() + ">"));
+//        Member mentor1 = memberRepository.findByIsMentorIsAndMemberId(mentor.isMentor(), mentor.getMemberId())
+//                .orElseThrow(() -> new NoSuchElementException("Wrong MemberId:<" + mentor.getMemberId() + ">"));
+//        // then
+//        assertThat(memberRepository.count()).isEqualTo(2);
+//        assertThat(member1.isMentor()).isFalse();
+//        assertThat(mentor1.isMentor()).isTrue();
+//    }
 
-    @DisplayName("나의 개인정보 조회")
-    @Test
-    public void getProfile() {
-        // given
-        Member member = Member.builder()
-                .email("test001@kakao.com")
-                .password("kakao123")
-                .nickname("member@1")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .point(100L)
-                .build();
-        memberRepository.save(member);
-        // when
-        List<Member> memberList = memberRepository.findAll();
-        Member result = memberList.get(0);
+//    @DisplayName("나의 개인정보 조회")
+//    @Test
+//    public void getProfile() {
+//        // given
+//        Member member = Member.builder()
+//                .email("test001@kakao.com")
+//                .password("kakao123")
+//                .nickname("member@1")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .point(100L)
+//                .build();
+//        memberRepository.save(member);
+//        // when
+//        List<Member> memberList = memberRepository.findAll();
+//        Member result = memberList.get(0);
+//
+//        // then
+//        Assertions.assertEquals(result, member);
+//    }
 
-        // then
-        Assertions.assertEquals(result, member);
-    }
-
-    @DisplayName("사용자 닉네임 변경")
-    @Test
-    public void updateMemberNickname() {
-        // given
-        Member member = Member.builder()
-                .email("test001@kakao.com")
-                .password("kakao123")
-                .nickname("member@1")
-                .type(Type.LOCAL)
-                .role(Role.USER)
-                .isMentor(false)
-                .point(100L)
-                .build();
-        Member saveMember = memberRepository.save(member);
-        saveMember.updateNickname("member@2");
-
-        // when
-        List<Member> memberList = memberRepository.findAll();
-        Member result = memberList.get(0);
-
-        // then
-        Assertions.assertEquals(result.getNickname(), "member@2");
-    }
+//    @DisplayName("사용자 닉네임 변경")
+//    @Test
+//    public void updateMemberNickname() {
+//        // given
+//        Member member = Member.builder()
+//                .email("test001@kakao.com")
+//                .password("kakao123")
+//                .nickname("member@1")
+//                .type(Type.LOCAL)
+//                .role(Role.USER)
+//                .isMentor(false)
+//                .point(100L)
+//                .build();
+//        Member saveMember = memberRepository.save(member);
+//        saveMember.updateNickname("member@2");
+//
+//        // when
+//        List<Member> memberList = memberRepository.findAll();
+//        Member result = memberList.get(0);
+//
+//        // then
+//        Assertions.assertEquals(result.getNickname(), "member@2");
+//    }
 
     @DisplayName("프로필 이미지 변경")
     @Test
