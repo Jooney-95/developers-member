@@ -315,6 +315,37 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Transactional
+    @Override
+    public MentorRegisterResponse registerMentor(MentorRegisterReqeust request) {
+        try {
+            Optional<Member> member = memberRepository.findById(request.getMemberId());
+            if (member.isPresent()) {
+                member.get().applyMentor();
+                MemberIdResponse memberId = MemberIdResponse.builder()
+                        .memberId(request.getMemberId())
+                        .build();
+                return MentorRegisterResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("정상적으로 사용자 멘토 등록을 완료했습니다.")
+                        .data(memberId)
+                        .build();
+            } else {
+                return MentorRegisterResponse.builder()
+                        .code(HttpStatus.NOT_FOUND.toString())
+                        .msg("존재하지 않는 사용자입니다.")
+                        .data(null)
+                        .build();
+            }
+        } catch (Exception e) {
+            return MentorRegisterResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                    .msg("멘토 등록을 하던 중 문제가 발생했습니다.")
+                    .data(null)
+                    .build();
+        }
+    }
+
     @Override
     public MemberLoginResponse getLoginMember(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);

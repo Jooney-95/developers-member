@@ -40,7 +40,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nickname", nullable = false, unique = true)
+    @Column(name = "nickname", length = 10, nullable = false, unique = true)
     private String nickname;
 
     @Column(name = "password")
@@ -119,8 +119,8 @@ public class Member extends BaseTimeEntity {
             this.profileImageUrl = profileImageUrl;
         }
     }
-    public void applyMentor(boolean isMentor) {
-        this.isMentor = isMentor;
+    public void applyMentor() {
+        this.isMentor = true;
     }
     public void updateIntroduce(String introduce) {
         this.introduce = introduce;

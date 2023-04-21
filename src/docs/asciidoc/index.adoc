@@ -69,6 +69,14 @@ include::{snippets}/member/profile/update-address/http-request.adoc[]
 Response
 include::{snippets}/member/profile/update-address/http-response.adoc[]
 
+=== 사용자 멘토 등록
+
+Request
+include::{snippets}/member/profile/apply-mentor/http-request.adoc[]
+
+Response
+include::{snippets}/member/profile/apply-mentor/http-response.adoc[]
+
 
 
 == Resume API

@@ -1,9 +1,6 @@
 package com.developers.member.member.controller;
 
-import com.developers.member.member.dto.request.AddressUpdateRequest;
-import com.developers.member.member.dto.request.NicknameUpdateRequest;
-import com.developers.member.member.dto.request.PasswordChangeRequest;
-import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
+import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 import com.developers.member.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -216,5 +214,35 @@ public class ProfileControllerTest {
 
         // then
 //        verify(memberService, times(1)).updateProfileImg(request);
+    }
+
+    @DisplayName("사용자 멘토 등록")
+    @Test
+    public void 사용자_멘토_등록() throws Exception {
+        // given
+        MentorRegisterReqeust request = MentorRegisterReqeust.builder()
+                .memberId(1L)
+                .build();
+        MemberIdResponse memberId = MemberIdResponse.builder()
+                .memberId(request.getMemberId())
+                .build();
+        MentorRegisterResponse response = MentorRegisterResponse.builder()
+                .code(HttpStatus.OK.toString())
+                .msg("정상적으로 사용자 멘토 등록을 완료했습니다.")
+                .data(memberId)
+                .build();
+        given(memberService.registerMentor(any())).willReturn(response);
+
+        // when
+        mockMvc.perform(patch("/api/member/mentor")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andDo(document("member/profile/apply-mentor",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk());
     }
 }

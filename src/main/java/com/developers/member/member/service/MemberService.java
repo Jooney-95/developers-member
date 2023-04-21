@@ -28,4 +28,6 @@ public interface MemberService {
     AddressUpdateResponse updateAddress(AddressUpdateRequest request);
 
     MemberRemoveResponse removeMember(Long memberId);
+
+    MentorRegisterResponse registerMentor(MentorRegisterReqeust request);
 }

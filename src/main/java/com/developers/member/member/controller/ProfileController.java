@@ -1,13 +1,11 @@
 package com.developers.member.member.controller;
 
-import com.developers.member.member.dto.request.AddressUpdateRequest;
-import com.developers.member.member.dto.request.NicknameUpdateRequest;
-import com.developers.member.member.dto.request.PasswordChangeRequest;
-import com.developers.member.member.dto.request.ProfileImageUpdateRequest;
+import com.developers.member.member.dto.request.*;
 import com.developers.member.member.dto.response.*;
 import com.developers.member.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,4 +70,17 @@ public class ProfileController {
         AddressUpdateResponse response = memberService.updateAddress(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    /**
+     * 사용자 멘토 등록
+     * @param request 사용자 PK 번호
+     * @return MentorRegisterResponse
+     */
+    @PatchMapping("/mentor")
+    public ResponseEntity<MentorRegisterResponse> registerMentor(@Valid @RequestBody MentorRegisterReqeust request) {
+        MentorRegisterResponse response = memberService.registerMentor(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
 }
