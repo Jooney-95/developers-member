@@ -76,7 +76,7 @@ asciidoctor {
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     from file("build/docs/asciidoc/")
-    into file("src/main/resources/static/docs")
+    into file("src/main/resources/static/docs/member")
 }
 
 build {
@@ -95,7 +95,7 @@ task copyPrivate(type: Copy) {
 bootJar {
     dependsOn copyDocument
     from ("${asciidoctor.outputDir}") {
-        into 'src/main/resources/static/docs'
+        into 'src/main/resources/static/docs/member'
     }
     copyPrivate
 }
