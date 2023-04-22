@@ -39,27 +39,27 @@ public class MemberServiceImpl implements MemberService {
                         .msg("이미 가입된 이메일입니다.")
                         .data(null)
                         .build();
-            }
-            if (memberByNickname.isPresent()) {
+            }else if (memberByNickname.isPresent()) {
                 log.info("[MemberServiceImpl] Member Nickname Already Exist ..");
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 사용중인 닉네임입니다.")
                         .data(null)
                         .build();
+            } else {
+                log.info("[MemberServiceImpl] Member Email with Nickname Available !");
+                Member saveMember = request.toEntity();
+                saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
+                Long saveMemberId = memberRepository.save(saveMember).getMemberId();
+                MemberIdResponse response = MemberIdResponse.builder()
+                        .memberId(saveMemberId)
+                        .build();
+                return MemberRegisterResponse.builder()
+                        .code(HttpStatus.OK.toString())
+                        .msg("회원가입이 정상적으로 처리되었습니다.")
+                        .data(response)
+                        .build();
             }
-            log.info("[MemberServiceImpl] Member Email with Nickname Available !");
-            Member saveMember = request.toEntity();
-            saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
-            Long saveMemberId = memberRepository.save(saveMember).getMemberId();
-            MemberIdResponse response = MemberIdResponse.builder()
-                    .memberId(saveMemberId)
-                    .build();
-            return MemberRegisterResponse.builder()
-                    .code(HttpStatus.OK.toString())
-                    .msg("회원가입이 정상적으로 처리되었습니다.")
-                    .data(response)
-                    .build();
         } catch (Exception e) {
             return MemberRegisterResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
