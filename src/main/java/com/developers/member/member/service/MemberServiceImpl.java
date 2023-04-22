@@ -33,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
             Optional<Member> memberByEmail = memberRepository.findByEmail(request.getEmail());
             Optional<Member> memberByNickname = memberRepository.findByNickname(request.getNickname());
             if (memberByEmail.isPresent()) {
+                log.info("[MemberServiceImpl] Member Email Already Exist ..");
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 가입된 이메일입니다.")
@@ -40,12 +41,14 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
             if (memberByNickname.isPresent()) {
+                log.info("[MemberServiceImpl] Member Nickname Already Exist ..");
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 사용중인 닉네임입니다.")
                         .data(null)
                         .build();
             }
+            log.info("[MemberServiceImpl] Member Email with Nickname Available !");
             Member saveMember = request.toEntity();
             saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
             Long saveMemberId = memberRepository.save(saveMember).getMemberId();
