@@ -33,21 +33,21 @@ public class MemberServiceImpl implements MemberService {
             Optional<Member> memberByEmail = memberRepository.findByEmail(request.getEmail());
             Optional<Member> memberByNickname = memberRepository.findByNickname(request.getNickname());
             if (memberByEmail.isPresent()) {
-                log.info("[MemberServiceImpl] Member Email Already Exist ..");
+                log.info("[MemberServiceImpl] 회원가입: 이미 사용중인 이메일입니다.");
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 가입된 이메일입니다.")
                         .data(null)
                         .build();
             }else if (memberByNickname.isPresent()) {
-                log.info("[MemberServiceImpl] Member Nickname Already Exist ..");
+                log.info("[MemberServiceImpl] 회원가입: 이미 사용중인 닉네임입니다.");
                 return MemberRegisterResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.toString())
                         .msg("이미 사용중인 닉네임입니다.")
                         .data(null)
                         .build();
             } else {
-                log.info("[MemberServiceImpl] Member Email with Nickname Available !");
+                log.info("[MemberServiceImpl] 회원가입: 회원가입 가능한 사용자입니다. {}, {}", request.getEmail(), request.getNickname());
                 Member saveMember = request.toEntity();
                 saveMember.changePassword(passwordEncoder.encode(saveMember.getPassword()));
                 Long saveMemberId = memberRepository.save(saveMember).getMemberId();
@@ -61,6 +61,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 회원가입: 회원가입 중 문제가 발생했습니다.");
+            e.printStackTrace();
             return MemberRegisterResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("회원가입 중 문제가 발생하였습니다.")
@@ -92,6 +94,7 @@ public class MemberServiceImpl implements MemberService {
         try {
             Optional<Member> member = memberRepository.findById(memberId);
             if(member.isPresent()) {
+                log.info("[MemberServiceImpl] 내 정보: 조회할 사용자 번호: {}", memberId);
                 Long point = member.get().getPoint().getPoint();
                 ProfileResponse profile = ProfileResponse.builder()
                         .email(member.get().getEmail())
@@ -110,6 +113,7 @@ public class MemberServiceImpl implements MemberService {
                         .data(profile)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 내 정보: 존재하지 않는 사용자입니다.");
                 return ProfileGetResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -117,6 +121,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 내 정보: 내 정보 조회중 문제가 발생했습니다.");
+            e.printStackTrace();
             return ProfileGetResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("나의 정보를 조회하던 중 문제가 발생하였습니다.")
@@ -133,12 +139,14 @@ public class MemberServiceImpl implements MemberService {
             if(member.isPresent()) {
                 boolean duplicate = memberRepository.existsByNickname(request.getNickname());
                 if(duplicate == true) {
+                    log.info("[MemberServiceImpl] 닉네임변경: 이미 사용중인 닉네임 입니다. {}", request.getNickname());
                     return NicknameUpdateResponse.builder()
                             .code(HttpStatus.CONFLICT.toString())
                             .msg("이미 사용중인 닉네임입니다.")
                             .data(null)
                             .build();
                 }
+                log.info("[MemberServiceImpl] 닉네임변경: 사용이 가능한 닉네임 입니다. {}", request.getNickname());
                 member.get().updateNickname(request.getNickname());
                 MemberIdWithNicknameResponse memberIdWithNickname = MemberIdWithNicknameResponse.builder()
                         .memberId(member.get().getMemberId())
@@ -150,6 +158,7 @@ public class MemberServiceImpl implements MemberService {
                         .data(memberIdWithNickname)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 닉네임변경: 존재하지 않는 사용자입니다.");
                 return NicknameUpdateResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -157,6 +166,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 닉네임변경: 닉네임 변경 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return NicknameUpdateResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("닉네임 변경 중 문제가 발생하였습니다.")
@@ -171,6 +182,7 @@ public class MemberServiceImpl implements MemberService {
         try {
             Optional<Member> member = memberRepository.findById(request.getMemberId());
             if(member.isPresent()) {
+                log.info("[MemberServiceImpl] 프로필이미지변경: 사용자 번호: {}", request.getMemberId());
                 String imagePath = request.getImagePath();
                 member.get().updateProfileImageUrl(imagePath);
                 ProfileImgPathResponse res = ProfileImgPathResponse.builder()
@@ -182,6 +194,7 @@ public class MemberServiceImpl implements MemberService {
                         .data(res)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 프로필이미지변경: 존재하지 않는 사용자입니다.");
                 return ProfileImageUpdateResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -189,6 +202,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 프로필이미지변경: 프로필 이미지를 변경하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return ProfileImageUpdateResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("프로필 이미지를 변경하던 중 문제가 발생하였습니다.")
@@ -203,7 +218,16 @@ public class MemberServiceImpl implements MemberService {
         try {
             Optional<Member> member = memberRepository.findById(request.getMemberId());
             if(member.isPresent()) {
-                member.get().changePassword(request.getPassword());
+                if(member.get().getPassword().equals(passwordEncoder.encode(request.getPassword()))) {
+                    log.info("[MemberServiceImpl] 비밀번호변경: 변경할 비밀번호가 기존 비밀번호와 일치합니다.");
+                    return PasswordChangeResponse.builder()
+                            .code(HttpStatus.BAD_REQUEST.toString())
+                            .msg("변경할 비밀번호가 기존 비밀번호와 일치합니다.")
+                            .data(null)
+                            .build();
+                }
+                log.info("[MemberServiceImpl] 비밀번호변경: 비밀번호 변경할 사용자 번호: {}", request.getMemberId());
+                member.get().changePassword(passwordEncoder.encode(request.getPassword()));
                 MemberIdResponse memberId = MemberIdResponse.builder()
                         .memberId(member.get().getMemberId())
                         .build();
@@ -213,6 +237,7 @@ public class MemberServiceImpl implements MemberService {
                         .data(memberId)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 비밀번호변경: 존재하지 않는 사용자입니다.");
                 return PasswordChangeResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -220,6 +245,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 비밀번호변경: 비밀번호를 변경하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return PasswordChangeResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("비밀번호를 변경하던 중 문제가 발생하였습니다.")
@@ -238,12 +265,14 @@ public class MemberServiceImpl implements MemberService {
                 member.get().updatePosition(request.getPositions());
                 member.get().updateSkills(request.getSkills());
                 MemberIdResponse memberId = MemberIdResponse.builder().memberId(member.get().getMemberId()).build();
+                log.info("[MemberServiceImpl] 이력정보등록: 이력정보를 등록할 사용자 번호: {}", request.getMemberId());
                 return MemberResumeSaveResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 이력정보를 등록하였습니다.")
                         .data(memberId)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 이력정보등록: 존재하지 않는 사용자입니다.");
                 return MemberResumeSaveResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -251,6 +280,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 이력정보등록: 이력정보를 등록하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return MemberResumeSaveResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("이력정보를 등록하던 중 문제가 발생하였습니다.")
@@ -269,12 +300,14 @@ public class MemberServiceImpl implements MemberService {
                 MemberIdResponse memberId = MemberIdResponse.builder()
                         .memberId(request.getMemberId())
                         .build();
+                log.info("[MemberServiceImpl] 거주지변경: 거주지를 변경할 사용자 번호: {}", request.getMemberId());
                 return AddressUpdateResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 거주지 정보를 변경했습니다.")
                         .data(memberId)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 거주지변경: 존재하지 않는 사용자입니다.");
                 return AddressUpdateResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -282,6 +315,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 거주지변경: 거주지 정보를 변경하던 중 문제가 발생했습니다.");
+            e.printStackTrace();
             return AddressUpdateResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("거주지 정보를 변경하던 중 문제가 발생했습니다.")
@@ -297,12 +332,14 @@ public class MemberServiceImpl implements MemberService {
             if (member.isPresent()) {
                 memberRepository.deleteById(memberId);
                 MemberIdResponse removeMemberId = MemberIdResponse.builder().memberId(memberId).build();
+                log.info("[MemberServiceImpl] 회원탈퇴: 회원 탈퇴할 사용자 번호: {}", memberId);
                 return MemberRemoveResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 사용자 회원 탈퇴를 처리했습니다.")
                         .data(removeMemberId)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 회원탈퇴: 존재하지 않는 사용자입니다.");
                 return MemberRemoveResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -310,6 +347,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 회원탈퇴: 사용자 회원 탈퇴를 하던 중 문제가 발생했습니다.");
+            e.printStackTrace();
             return MemberRemoveResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("사용자 회원 탈퇴를 하던 중 문제가 발생했습니다.")
@@ -328,12 +367,14 @@ public class MemberServiceImpl implements MemberService {
                 MemberIdResponse memberId = MemberIdResponse.builder()
                         .memberId(request.getMemberId())
                         .build();
+                log.info("[MemberServiceImpl] 멘토등록: 멘토로 등록할 사용자 번호: {}", request.getMemberId());
                 return MentorRegisterResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 사용자 멘토 등록을 완료했습니다.")
                         .data(memberId)
                         .build();
             } else {
+                log.info("[MemberServiceImpl] 멘토등록: 존재하지 않는 사용자입니다.");
                 return MentorRegisterResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -341,6 +382,8 @@ public class MemberServiceImpl implements MemberService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[MemberServiceImpl] 멘토등록: 멘토 등록을 하던 중 문제가 발생했습니다.");
+            e.printStackTrace();
             return MentorRegisterResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("멘토 등록을 하던 중 문제가 발생했습니다.")

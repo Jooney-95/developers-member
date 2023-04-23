@@ -29,6 +29,7 @@ public class CareerServiceImpl implements CareerService {
         try {
             Optional<Member> member = memberRepository.findById(memberId);
             if (member.isPresent()) {
+                log.info("[CareerServiceImpl] 경력조회: 경력을 조회할 사용자 번호: {}", memberId);
                 List<Career> careers = careerRepository.findByMember(member.get());
                 List<MemberOfCareer> careerList = new ArrayList<>();
                 for(Career career : careers) {
@@ -52,6 +53,7 @@ public class CareerServiceImpl implements CareerService {
                         .data(careerInfo)
                         .build();
             } else {
+                log.info("[CareerServiceImpl] 경력조회: 존재하지 않는 사용자입니다.");
                 return MemberCareerGetResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -59,6 +61,8 @@ public class CareerServiceImpl implements CareerService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[CareerServiceImpl] 경력조회: 이력 및 경력정보 조회 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return MemberCareerGetResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("이력 및 경력정보 조회 중 문제가 발생하였습니다.")
@@ -88,6 +92,7 @@ public class CareerServiceImpl implements CareerService {
                         .data(careerId)
                         .build();
             } else {
+                log.info("[CareerServiceImpl] 경력등록: 존재하지 않는 사용자입니다.");
                 return MemberCareerResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 사용자입니다.")
@@ -95,6 +100,8 @@ public class CareerServiceImpl implements CareerService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[CareerServiceImpl] 경력등록: 경력정보를 등록하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return MemberCareerResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("경력정보를 등록하던 중 문제가 발생하였습니다.")
@@ -109,6 +116,7 @@ public class CareerServiceImpl implements CareerService {
         try {
             Optional<Career> career = careerRepository.findById(request.getCareerId());
             if (career.isPresent()) {
+                log.info("[CareerServiceImpl] 경력수정: 수정할 경력 번호: {}", request.getCareerId());
                 career.get().updateCompany(request.getCompany());
                 career.get().changeStartDate(request.getCareerStart());
                 career.get().changeEndDate(request.getCareerEnd());
@@ -121,6 +129,7 @@ public class CareerServiceImpl implements CareerService {
                         .data(careerId)
                         .build();
             } else {
+                log.info("[CareerServiceImpl] 경력수정: 존재하지 않는 경력정보입니다.");
                 return MemberCareerResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 경력정보입니다.")
@@ -128,6 +137,8 @@ public class CareerServiceImpl implements CareerService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[CareerServiceImpl] 경력수정: 경력정보를 변경하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return MemberCareerResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("경력정보를 변경하던 중 문제가 발생하였습니다.")
@@ -141,6 +152,7 @@ public class CareerServiceImpl implements CareerService {
         try {
             Optional<Career> career = careerRepository.findById(careerId);
             if (career.isPresent()) {
+                log.info("[CareerServiceImpl] 경력삭제: 삭제할 경력 번호: {}", careerId);
                 careerRepository.deleteById(career.get().getCareerId());
                 CareerIdResponse deleteCareerId = CareerIdResponse.builder()
                         .careerId(careerId)
@@ -151,6 +163,7 @@ public class CareerServiceImpl implements CareerService {
                         .data(deleteCareerId)
                         .build();
             } else {
+                log.info("[CareerServiceImpl] 경력삭제: 존재하지 않는 경력정보입니다.");
                 return MemberCareerResponse.builder()
                         .code(HttpStatus.NOT_FOUND.toString())
                         .msg("존재하지 않는 경력정보입니다.")
@@ -158,6 +171,8 @@ public class CareerServiceImpl implements CareerService {
                         .build();
             }
         } catch (Exception e) {
+            log.info("[CareerServiceImpl] 경력삭제: 경력정보를 삭제하던 중 문제가 발생하였습니다.");
+            e.printStackTrace();
             return MemberCareerResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("경력정보를 삭제하던 중 문제가 발생하였습니다.")
