@@ -129,16 +129,15 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/login")
                 .successForwardUrl("/")
-                .failureForwardUrl("/")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessUrl("/");
         http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
         return http.build();
     }
 }
