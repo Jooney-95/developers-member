@@ -216,7 +216,7 @@ public class MemberRepositoryTest {
     public void updateProfileImage() {
         // given
         Member member = Member.builder()
-                .email("test001@kakao.com")
+                .email("test001@test.com")
                 .password("kakao123")
                 .nickname("member@1")
                 .type(Type.LOCAL)
@@ -240,7 +240,7 @@ public class MemberRepositoryTest {
     public void updatePassword() {
         // given
         Member member = Member.builder()
-                .email("test001@kakao.com")
+                .email("test001@test.com")
                 .password("kakao123")
                 .nickname("member@1")
                 .type(Type.LOCAL)

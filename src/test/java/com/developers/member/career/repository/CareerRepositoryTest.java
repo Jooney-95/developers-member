@@ -42,9 +42,9 @@ public class CareerRepositoryTest {
         // given
         LocalDate currentDate = LocalDate.now();
         Member member = Member.builder()
-                .email("test001@kakao.com")
+                .email("test001@test.com")
                 .password("kakao123")
-                .nickname("test001")
+                .nickname("dvlptest@1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
@@ -87,9 +87,9 @@ public class CareerRepositoryTest {
         // given
         LocalDate currentDate = LocalDate.now();
         Member member = Member.builder()
-                .email("test002@kakao.com")
+                .email("test002@test.com")
                 .password("kakao123")
-                .nickname("test002")
+                .nickname("dvlptest@1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
@@ -123,9 +123,9 @@ public class CareerRepositoryTest {
         // given
         LocalDate currentDate = LocalDate.now();
         Member member = Member.builder()
-                .email("test002@kakao.com")
+                .email("test002@test.com")
                 .password("kakao123")
-                .nickname("test002")
+                .nickname("dvlptest@1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)

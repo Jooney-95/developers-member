@@ -43,9 +43,9 @@ public class BadgeRepositoryTest {
     public void getMyBadge() {
         // given
         Member member = Member.builder()
-                .email("test001@kakao.com")
+                .email("developers-test001@test.com")
                 .password("kakao123")
-                .nickname("test001")
+                .nickname("dvlptest@1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
@@ -81,9 +81,9 @@ public class BadgeRepositoryTest {
     public void getMyBadgeList() {
         // given
         Member member = Member.builder()
-                .email("test001@kakao.com")
+                .email("test001@test.com")
                 .password("kakao123")
-                .nickname("test001")
+                .nickname("dvlptest@1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
