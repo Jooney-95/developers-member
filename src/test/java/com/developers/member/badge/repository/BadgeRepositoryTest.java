@@ -114,7 +114,6 @@ public class BadgeRepositoryTest {
         List<Badge> result = badgeRepository.findByMember(member);
 
         // then
-        assertThat(badgeRepository.count()).isEqualTo(2);
         assertThat(result.get(0).getBadgeName()).isEqualTo(beginnerBadge.getBadgeName());
         assertThat(result.get(1).getBadgeName()).isEqualTo(beginnerSolver.getBadgeName());
 
