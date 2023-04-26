@@ -7,6 +7,7 @@ import com.developers.member.badge.entity.Badge;
 import com.developers.member.badge.entity.Badges;
 import com.developers.member.badge.entity.MyBadge;
 import com.developers.member.badge.repository.BadgeRepository;
+import com.developers.member.badge.repository.MyBadgeRepository;
 import com.developers.member.member.dto.response.MemberIdResponse;
 import com.developers.member.member.entity.Member;
 import com.developers.member.member.repository.MemberRepository;
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class BadgeServiceImpl implements BadgeService {
     private final MemberRepository memberRepository;
     private final BadgeRepository badgeRepository;
+    private final MyBadgeRepository myBadgeRepository;
 
     @Override
     public MemberAllBadgeResponse getMyAllBadge(Long memberId) {
@@ -149,12 +151,17 @@ public class BadgeServiceImpl implements BadgeService {
                             .build();
                 }
                 log.info("[BadgeServiceImpl] 착용칭호변경: 칭호 착용 로직을 실행합니다.");
-                member.get().getMyBadge().changeBadge(Badges.valueOf(request.getBadgeName()));
+//                member.get().getMyBadge().changeBadge(Badges.valueOf(request.getBadgeName()));
+                MyBadge myBadge = MyBadge.builder()
+                        .member(member.get())
+                        .badgeName(Badges.valueOf(request.getBadgeName()))
+                        .build();
+                myBadgeRepository.save(myBadge);
                 MemberIdWithPickBadgeResponse res = MemberIdWithPickBadgeResponse.builder()
                         .memberId(request.getMemberId())
                         .myBadge(request.getBadgeName())
                         .build();
-                log.info("[BadgeServiceImpl] 착용칭호변경: 칭호 착용을 완료하였습니다. {}", res);
+                log.info("[BadgeServiceImpl] 착용칭호변경: 칭호 착용 여부를 DB에 반영 완료하였습니다. {}", res);
                 return MemberChangeBadgeResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 칭호를 변경했습니다.")
