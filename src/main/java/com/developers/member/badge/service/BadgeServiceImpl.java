@@ -148,12 +148,13 @@ public class BadgeServiceImpl implements BadgeService {
                             .data(null)
                             .build();
                 }
+                log.info("[BadgeServiceImpl] 착용칭호변경: 칭호 착용 로직을 실행합니다.");
                 member.get().getMyBadge().changeBadge(Badges.valueOf(request.getBadgeName()));
                 MemberIdWithPickBadgeResponse res = MemberIdWithPickBadgeResponse.builder()
                         .memberId(request.getMemberId())
                         .myBadge(request.getBadgeName())
                         .build();
-                log.info("[BadgeServiceImpl] 착용칭호변경: {} 칭호 착용 가능합니다.", request.getBadgeName());
+                log.info("[BadgeServiceImpl] 착용칭호변경: 칭호 착용을 완료하였습니다. {}", res);
                 return MemberChangeBadgeResponse.builder()
                         .code(HttpStatus.OK.toString())
                         .msg("정상적으로 칭호를 변경했습니다.")
@@ -169,6 +170,7 @@ public class BadgeServiceImpl implements BadgeService {
             }
         } catch (Exception e) {
             log.info("[BadgeServiceImpl] 착용칭호변경: 사용자의 칭호를 변경하던 중 문제가 발생했습니다.");
+            e.printStackTrace();
             return MemberChangeBadgeResponse.builder()
                     .code(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                     .msg("사용자의 칭호를 변경하던 중 문제가 발생했습니다.")
