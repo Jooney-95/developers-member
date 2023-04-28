@@ -74,15 +74,26 @@ public class TokenCheckFilter extends OncePerRequestFilter {
          * 멘토링: 전체 방 목록 조회
          */
         if (path.startsWith("/api/auth/register")
-                || path.startsWith("/api/room")
-                || path.startsWith("/api/room/next")
-                || path.startsWith("/api/room/top")
-                || path.startsWith("/api/room/{searchingword}")
-                || path.startsWith("/api/problem")
-                || path.startsWith("/api/problem/list")
-                || path.startsWith("/api/problem/{problemId}/{member}")
                 || path.startsWith("/api/auth/refresh")) {
-            log.info("[TokenCheckFilter] Skip Token Check Filter");
+            log.info("[TokenCheckFilter] Skip Token Check Filter, 회원가입 및 리프레쉬 토큰 요청");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        /**
+         * 개인정보 조회, 이력정보 조회, 착용칭호 조회는 본인 외 다른 사용자 정보도 조회 가능해야 하기에 인증 제외
+         */
+        if(path.startsWith("/api/member/") && request.getMethod().equals("GET")) {
+            log.info("[TokenCheckFilter] Skip Token Check Filter, 사용자 개인정보 조회");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if(path.startsWith("/api/member/career/") && request.getMethod().equals("GET")) {
+            log.info("[TokenCheckFilter] Skip Token Check Filter, 사용자 이력정보 조회");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if(path.startsWith("/api/member/badge/") && request.getMethod().equals("GET")) {
+            log.info("[TokenCheckFilter] Skip Token Check Filter, 사용자 착용칭호 조회");
             filterChain.doFilter(request, response);
             return;
         }
