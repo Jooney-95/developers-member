@@ -40,7 +40,7 @@ public class PointRepositoryTest {
         Member member = Member.builder()
                 .email("testpointincrease001@kakao.com")
                 .password("kakao123")
-                .nickname("lango")
+                .nickname("pointTest1")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
@@ -67,9 +67,9 @@ public class PointRepositoryTest {
     public void decreasePoint() {
         // given
         Member member = Member.builder()
-                .email("testpointdecrease001@kakao.com")
+                .email("testpointdecrease002@kakao.com")
                 .password("kakao123")
-                .nickname("lango")
+                .nickname("pointTest2")
                 .type(Type.LOCAL)
                 .role(Role.USER)
                 .isMentor(false)
