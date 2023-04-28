@@ -146,7 +146,13 @@ include::{snippets}/member/point/decrease/http-request.adoc[]
 Response
 include::{snippets}/member/point/decrease/http-response.adoc[]
 
+=== 모든 사용자 포인트 랭킹 조회
 
+Request
+include::{snippets}/member/point/ranking/http-request.adoc[]
+
+Response
+include::{snippets}/member/point/ranking/http-response.adoc[]
 
 == Badge API
 

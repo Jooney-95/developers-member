@@ -2,7 +2,10 @@ package com.developers.member.point.controller;
 
 import com.developers.member.member.dto.response.MemberIdWithPointResponse;
 import com.developers.member.point.dto.request.MemberPointRequest;
+import com.developers.member.point.dto.response.GetPointRankingResponse;
 import com.developers.member.point.dto.response.MemberPointResponse;
+import com.developers.member.point.dto.response.PointRanking;
+import com.developers.member.point.dto.response.PointWithNickname;
 import com.developers.member.point.service.PointService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +21,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -99,6 +106,38 @@ public class PointControllerTest {
                 )
                 .andDo(print())
                 .andDo(document("member/point/decrease",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk());
+
+        // then
+//        verify(memberService, times(1)).register(request);
+    }
+
+    @DisplayName("모든 사용자 포인트 랭킹 조회")
+    @Test
+    public void 사용자_포인트_랭킹_조회() throws Exception {
+        // given
+        List<PointWithNickname> pointList = new ArrayList<>();
+        pointList.add(PointWithNickname.builder().point(100L).nickname("test001").build());
+        pointList.add(PointWithNickname.builder().point(100L).nickname("test002").build());
+        PointRanking result = PointRanking.builder()
+                .pointRanking(pointList)
+                .build();
+        GetPointRankingResponse response = GetPointRankingResponse.builder()
+                .code(HttpStatus.OK.toString())
+                .msg("정상적으로 포인트 랭킹을 조회하였습니다.")
+                .data(result)
+                .build();
+        given(pointService.getPointRanking()).willReturn(response);
+
+        // when
+        mockMvc.perform(get("/api/member/point/ranking")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andDo(document("member/point/ranking",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk());

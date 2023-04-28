@@ -74,8 +74,9 @@ public class TokenCheckFilter extends OncePerRequestFilter {
          * 멘토링: 전체 방 목록 조회
          */
         if (path.startsWith("/api/auth/register")
-                || path.startsWith("/api/auth/refresh")) {
-            log.info("[TokenCheckFilter] Skip Token Check Filter, 회원가입 및 리프레쉬 토큰 요청");
+                || path.startsWith("/api/auth/refresh")
+                || path.startsWith("/api/member/point/ranking")) {
+            log.info("[TokenCheckFilter] Skip Token Check Filter, 회원가입, 리프레쉬 토큰, 포인트 랭킹 요청");
             filterChain.doFilter(request, response);
             return;
         }
