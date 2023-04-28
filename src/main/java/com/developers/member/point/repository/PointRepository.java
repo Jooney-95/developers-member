@@ -9,4 +9,5 @@ import java.util.List;
 public interface PointRepository extends JpaRepository<Point, Long> {
     Point findByMember(Member member);
     List<Point> findAllByOrderByPointDesc();
+    List<Point> findTop10ByOrderByPointDesc();
 }

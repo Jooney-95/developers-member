@@ -111,7 +111,7 @@ public class PointServiceImpl implements PointService {
     public GetPointRankingResponse getPointRanking() {
         log.info("[PointServiceImpl] 포인트랭킹조회: 사용자 포인트 랭킹을 조회합니다.");
         try {
-            List<Point> pointRankingList = pointRepository.findAllByOrderByPointDesc();
+            List<Point> pointRankingList = pointRepository.findTop10ByOrderByPointDesc();
             log.info("[PointServiceImpl] 포인트랭킹조회: 사용자 포인트 랭킹: {}", pointRankingList);
 
             List<PointWithNickname> result = new ArrayList<>();
