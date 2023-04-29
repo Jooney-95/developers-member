@@ -7,5 +7,6 @@ import lombok.Getter;
 @Getter
 public class PointWithNickname {
     private Long point;
+    private Long memberId;
     private String nickname;
 }
