@@ -118,6 +118,7 @@ public class PointServiceImpl implements PointService {
             for (Point point : pointRankingList) {
                 PointWithNickname resPoint = PointWithNickname.builder()
                         .point(point.getPoint())
+                        .memberId(point.getMember().getMemberId())
                         .nickname(point.getMember().getNickname())
                         .build();
                 result.add(resPoint);
