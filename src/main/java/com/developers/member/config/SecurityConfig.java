@@ -6,6 +6,7 @@ import com.developers.member.auth.security.filter.RefreshTokenFilter;
 import com.developers.member.auth.security.filter.TokenCheckFilter;
 import com.developers.member.auth.security.handler.LoginSuccessHandler;
 import com.developers.member.auth.security.service.MemberDetailsService;
+import com.developers.member.exception.LoginFailureHandler;
 import com.developers.member.member.repository.MemberRepository;
 import com.developers.member.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -75,7 +77,7 @@ public class SecurityConfig {
     // 웹에서의 시큐리티 적용 설정 - 설정 파일은 security 적용 대상아 아님
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        log.info("------------web configure-------------------");
+        log.info("[SecurityConfig] Web Configure --------------------------------");
         return (web) -> web.ignoring().
                 requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
@@ -83,21 +85,21 @@ public class SecurityConfig {
     private TokenCheckFilter tokenCheckFilter(JwtUtil jwtUtil){
         return new TokenCheckFilter(jwtUtil);
     }
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(){
-        return new CustomeBasicAuthenticationEntryPoint();
-    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("-------------------configure-------------------------------");
+        log.info("[SecurityConfig] Configure --------------------------------");
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(memberDetailService).passwordEncoder(passwordEncoder());
+
         // Get AuthenticationManager
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
-        //반드시 필요
+
+        // 반드시 필요
         http.authenticationManager(authenticationManager);
-        //APILoginFilter
-        //스프링 Security에서 username 과 password를 처리하는 UsernamePasswordAuthenticationFilter 의 앞쪽에서 동작하도록 설정
+
+        // APILoginFilter
+        // 스프링 Security에서 username 과 password를 처리하는 UsernamePasswordAuthenticationFilter 의 앞쪽에서 동작하도록 설정
         LoginFilter apiLoginFilter = new LoginFilter("/api/auth/login");
         apiLoginFilter.setAuthenticationManager(authenticationManager);
         // APILoginFilter 다음에 동작할 핸들러 생성하기
@@ -112,12 +114,12 @@ public class SecurityConfig {
         http.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
         // Refresh 토큰 컴증 필터를 적용하기
         http.addFilterBefore(new RefreshTokenFilter("/api/auth/refresh", jwtUtil), TokenCheckFilter.class);
-        // API Server는 세션을 사용하지 않기에 세션 사용 중지
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         // API Server에서 동작헤야 하기 때문에 CORS 설정 추가
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
         });
+
         http
                 .csrf().disable()
                 .cors()
@@ -125,19 +127,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/authenticate", "/ouath2/**", "/docs/**", "/api/**", "/api/auth/**").permitAll()
                 .anyRequest().authenticated();
-        http
-                .formLogin()
-                .loginPage("/login")
-                .successForwardUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessUrl("/");
-        http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+//        http.formLogin().failureHandler(loginFailureHandler).permitAll();
+        http.formLogin().disable();
+        http.logout().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 }
