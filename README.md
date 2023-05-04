@@ -1,6 +1,12 @@
 # developers-member
 Developers 프로젝트의 사용자 관련 서비스 Backend 저장소입니다.
 
+## 사용자 서비스 주요기능
+- 사용자 인증
+- 회원가입 및 로그인
+- 포인트 적립 및 차감
+- 칭호 획득 및 
+
 ## Project packaging
 
 ```
